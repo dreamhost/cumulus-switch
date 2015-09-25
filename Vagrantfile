@@ -60,7 +60,6 @@ Vagrant.configure(2) do |config|
   config.vm.network "private_network", virtualbox__intnet: true # swp32
   config.vm.network "private_network", virtualbox__intnet: true # swp33
   config.vm.network "private_network", virtualbox__intnet: true # swp34
-  config.vm.network "private_network", virtualbox__intnet: true # swp35
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
@@ -105,6 +104,6 @@ Vagrant.configure(2) do |config|
   #
   config.vm.provision "chef_zero" do |chef|
     chef.cookbooks_path = "./"
-    chef.add_recipe 'cumulusvx::default'
+    chef.add_recipe 'cumulus-application-example::leaf'
   end
 end
