@@ -9,50 +9,76 @@
 
 include_recipe 'cumulus'
 
-cumulus_interface "eth0"
+node.default['dh_network']['bridge']['br_mgmt']['ipv4'] = ['10.6.1.1/24']
+node.default['dh_network']['bridge']['br_mgmt']['ports'] = ['swp1-12']
+node.default['dh_network']['bridge']['br_cust']['ipv6'] = ['2607:f298:4:d00d::1/64']
+node.default['dh_network']['bridge']['br_cust']['ports'] = ['swp13-24']
+node.default['dh_network']['interface_range']['swp[1-24]']['speed'] = '10000'
+node.default['dh_network']['interface_range']['swp[1-24]']['mtu'] = 9000
+node.default['dh_network']['interface']['eth0'] = {}
+node.default['dh_network']['interface']['swp1']['speed'] = '10000'
+node.default['dh_network']['interface']['swp1']['mtu'] = 9000
+node.default['dh_network']['ports']['10g'] = ['swp1-24']
 
-# setup swp*
-(1..34).each do |int|
-  cumulus_interface "swp#{int}" do
-    speed '10000'
-    mtu 9000
+# Bridges
+node.dh_network.bridge.each do |bridge, data|
+  # Execute to notify later
+  execute "ifup_#{bridge}" do
+    command "ifup #{bridge}"
+    action :nothing
+  end
+
+  cumulus_bridge bridge do
+    ports data.ports if data['ports']
+    ipv4 data.ipv4 if data['ipv4']
+    ipv6 data.ipv6 if data['ipv6']
+    #notifies :run, "execute[ifup_br-cust]", :delayed
+    # This shit doesn't work with vagrant + virtualbox + cumulus vx
   end
 end
 
-# configure uplinks
-cumulus_interface 'swp33' do
-  ipv4 ['10.66.0.2/24']
-  speed '10000'
-  mtu 9000
-  notifies :reload, "service[networking]", :delayed
+# Interfaces
+node.dh_network.interface.each do |interface, data|
+  # Execute to notify later
+  execute "ifup_#{interface}" do
+    command "ifup #{interface}"
+    action :nothing
+  end
+
+  cumulus_interface interface do
+    ipv4 [data.ipv4] if data['ipv4']
+    ipv4 [data.ipv6] if data['ipv6']
+    speed data.speed if data['speed']
+    mtu data.mtu if data['mtu']
+    #notifies :run, "execute[ifup_#{interface}]", :delayed
+    # This shit doesn't work with vagrant + virtualbox + cumulus vx
+  end
 end
 
-cumulus_interface 'swp34' do
-  ipv4 ['10.66.0.3/24']
-  speed '10000'
-  mtu 9000
-  notifies :reload, "service[networking]", :delayed
+# Interface ranges
+node.dh_network.interface_range.each do |range_str, data|
+  # range str should be something like "swp[1-24].100"
+  range = range_str.match(/\[(\d+)-(\d+)\]/)
+  (range[1]..range[2]).each do |id|
+    ifname = range_str.gsub(/\[\d+-\d+\]/, id)
+
+    # Execute to notify later
+    execute "ifup_#{ifname}" do
+      command "ifup #{ifname}"
+      action :nothing
+    end
+
+    cumulus_interface ifname do
+      speed data.speed if data['speed']
+      mtu data.mtu if data['mtu']
+      #notifies :run, "execute[ifup_#{ifname}]", :delayed
+      # This shit doesn't work with vagrant + virtualbox + cumulus vx
+    end
+  end
 end
 
 # set speed on swp* ports
 cumulus_ports 'speeds' do
-  speed_10g ['swp1-34']
+  speed_10g node.dh_network.ports['10g'] if node.dh_network.ports['10g']
   notifies :restart, "service[switchd]"
-end
-
-cumulus_bridge 'br-cust' do
-  ports ['swp1-12']
-  ipv4 ['10.65.10.1/24']
-  alias_name 'customer'
-  mtu 9000
-  notifies :reload, "service[networking]", :delayed
-end
-
-cumulus_bridge 'br-mgt' do
-  ports ['swp13-24']
-  ipv4 ['10.65.11.1/24']
-  ipv6 ['2001:db8:abcd::/48']
-  alias_name 'management'
-  mtu 9000
-  notifies :reload, "service[networking]", :delayed
 end
