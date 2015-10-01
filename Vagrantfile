@@ -104,6 +104,6 @@ Vagrant.configure(2) do |config|
   #
   config.vm.provision "chef_zero" do |chef|
     chef.cookbooks_path = "./"
-    chef.add_recipe 'cumulus-application-example::leaf'
+    chef.add_recipe 'cumulus-application-example::default'
   end
 end
