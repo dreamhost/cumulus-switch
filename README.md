@@ -15,15 +15,15 @@ Attributes
 
 Quick example.  This needs organizing...
 
-node.default['dh_network']['bridge']['bridge-name']['ipv4'] = ['203.0.113.1/24']
-node.default['dh_network']['bridge']['bridge-name']['ipv6'] = ['2001:DB8::1/64']
-node.default['dh_network']['bridge']['bridge-name']['ports'] = ['swp1-24']
-node.default['dh_network']['interface_range']['swp[1-24]']['speed'] = '10000'
-node.default['dh_network']['interface_range']['swp[1-24]']['mtu'] = 9000
-node.default['dh_network']['interface']['eth0'] = {}
-node.default['dh_network']['interface']['swp1']['speed'] = '10000'
-node.default['dh_network']['interface']['swp1']['mtu'] = 9000
-node.default['dh_network']['ports']['10g'] = ['swp1-24']
+node.default['dh_network']['bridge']['bridge-name']['ipv4'] = ['203.0.113.1/24']  
+node.default['dh_network']['bridge']['bridge-name']['ipv6'] = ['2001:DB8::1/64']  
+node.default['dh_network']['bridge']['bridge-name']['ports'] = ['swp1-24']  
+node.default['dh_network']['interface_range']['swp[1-24]']['speed'] = '10000'  
+node.default['dh_network']['interface_range']['swp[1-24]']['mtu'] = 9000  
+node.default['dh_network']['interface']['eth0'] = {}  
+node.default['dh_network']['interface']['swp1']['speed'] = '10000'  
+node.default['dh_network']['interface']['swp1']['mtu'] = 9000  
+node.default['dh_network']['ports']['10g'] = ['swp1-24']  
 
 TODO: List your cookbook attributes here.
 
