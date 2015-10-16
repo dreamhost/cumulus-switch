@@ -1,4 +1,7 @@
-node.default['dh_network']['bridge'] = {}
-node.default['dh_network']['interface_range'] = {}
-node.default['dh_network']['interface'] = {}
-node.default['dh_network']['ports'] = {}
+node.default['cumulus_attr']['bridge'] = {}
+node.default['cumulus_attr']['interface_range'] = {}
+node.default['cumulus_attr']['interface'] = {}
+node.default['cumulus_attr']['ports'] = {}
+
+# Automatically restart switchd on port config changes if true
+node.default['cumulus_attr']['restart_switchd'] = false

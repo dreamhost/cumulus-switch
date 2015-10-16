@@ -16,8 +16,20 @@ execute 'reload_networking' do
   action :nothing
 end
 
+def cl_interface(interface, data)
+  cumulus_interface interface do
+    ipv4 data.ipv4 if data['ipv4']
+    ipv6 data.ipv6 if data['ipv6']
+    speed data.speed if data['speed']
+    mtu data.mtu if data['mtu']
+    post_up data.post_up if data['post_up']
+    addr_method data.addr_method if data['addr_method']
+    notifies :run, "execute[reload_networking]", :delayed
+  end
+end
+
 # Bridges
-node.dh_network.bridge.each do |bridge, data|
+node.cumulus_attr.bridge.each do |bridge, data|
   cumulus_bridge bridge do
     ports data.ports if data['ports']
     ipv4 data.ipv4 if data['ipv4']
@@ -27,37 +39,25 @@ node.dh_network.bridge.each do |bridge, data|
 end
 
 # Interfaces
-node.dh_network.interface.each do |interface, data|
-  cumulus_interface interface do
-    ipv4 data.ipv4 if data['ipv4']
-    ipv6 data.ipv6 if data['ipv6']
-    speed data.speed if data['speed']
-    mtu data.mtu if data['mtu']
-    addr_method data.addr_method if data['addr_method']
-    notifies :run, "execute[reload_networking]", :delayed
-  end
+node.cumulus_attr.interface.each do |interface, data|
+  cl_interface(interface, data)
 end
 
 # Interface ranges
-node.dh_network.interface_range.each do |range_str, data|
+node.cumulus_attr.interface_range.each do |range_str, data|
   # range str should be something like "swp[1-24].100"
   range = range_str.match(/\[(\d+)-(\d+)\]/)
   (range[1]..range[2]).each do |id|
     ifname = range_str.gsub(/\[\d+-\d+\]/, id)
-
-    cumulus_interface ifname do
-      speed data.speed if data['speed']
-      mtu data.mtu if data['mtu']
-      notifies :run, "execute[reload_networking]", :delayed
-    end
+    cl_interface(ifname, data)
   end
 end
 
 # Ports
 cumulus_ports 'speeds' do
-  speed_10g node.dh_network.ports['10g'] if node.dh_network.ports['10g']
-  speed_40g node.dh_network.ports['40g'] if node.dh_network.ports['40g']
-  speed_40g_div_4 node.dh_network.ports['40g_div_4'] if node.dh_network.ports['40g_div_4']
-  speed_4_by_10g node.dh_network.ports['4_by_10g'] if node.dh_network.ports['4_by_10g']
-  notifies :restart, "service[switchd]", :delayed
+  speed_10g node.cumulus_attr.ports['10g'] if node.cumulus_attr.ports['10g']
+  speed_40g node.cumulus_attr.ports['40g'] if node.cumulus_attr.ports['40g']
+  speed_40g_div_4 node.cumulus_attr.ports['40g_div_4'] if node.cumulus_attr.ports['40g_div_4']
+  speed_4_by_10g node.cumulus_attr.ports['4_by_10g'] if node.cumulus_attr.ports['4_by_10g']
+  notifies :restart, "service[switchd]", :delayed if node.cumulus_attr.restart_switchd
 end
