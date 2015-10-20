@@ -16,6 +16,13 @@ execute 'reload_networking' do
   action :nothing
 end
 
+# service networking reload does not clear any old loopback
+# addresses.  We must ifdown & ifup the lo interface.
+execute 'reload_loopback' do
+  command 'ifdown lo && ifup lo'
+  action :nothing
+end
+
 def cl_interface(interface, data)
   cumulus_interface interface do
     ipv4 data.ipv4 if data['ipv4']
@@ -25,6 +32,7 @@ def cl_interface(interface, data)
     post_up data.post_up if data['post_up']
     addr_method data.addr_method if data['addr_method']
     notifies :run, "execute[reload_networking]", :delayed
+    notifies :run, "execute[reload_loopback]", :delayed if interface =~ /^lo/
   end
 end
 
