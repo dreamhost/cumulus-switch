@@ -31,8 +31,25 @@ def cl_interface(interface, data)
     mtu data.mtu if data['mtu']
     post_up data.post_up if data['post_up']
     addr_method data.addr_method if data['addr_method']
+    # Options for enabling clagd ports
+    clagd_enable data.clagd_enable if data['clagd_enable']
+    clagd_peer_ip data.clagd_peer_ip if data['clagd_peer_ip']
+    clagd_priority data.clagd_priority if data['clagd_priority']
+    clagd_sys_mac data.clagd_sys_mac if data['clagd_sys_mac']
     notifies :run, "execute[reload_networking]", :delayed
     notifies :run, "execute[reload_loopback]", :delayed if interface =~ /^lo/
+  end
+end
+
+# Bond
+node.cumulus_attr.bond.each do |bond, data|
+  cumulus_bond bond do
+    ipv4 data.ipv4 if data['ipv4']
+    ipv6 data.ipv6 if data['ipv6']
+    slaves data.slaves if data['slaves']
+    clag_id data.clag_id if data['clag_id']
+    virtual_ip data.virtual_ip if data['virtual_ip']
+    notifies :run, "execute[reload_networking]", :delayed
   end
 end
 
