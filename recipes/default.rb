@@ -48,6 +48,7 @@ node.cumulus_attr.bond.each do |bond, data|
     ipv6 data.ipv6 if data['ipv6']
     slaves data.slaves if data['slaves']
     clag_id data.clag_id if data['clag_id']
+    lacp_bypass_allow data.lacp_bypass_allow if data['lacp_bypass_allow']
     virtual_ip data.virtual_ip if data['virtual_ip']
     notifies :run, "execute[reload_networking]", :delayed
   end
@@ -59,6 +60,9 @@ node.cumulus_attr.bridge.each do |bridge, data|
     ports data.ports if data['ports']
     ipv4 data.ipv4 if data['ipv4']
     ipv6 data.ipv6 if data['ipv6']
+    virtual_ip data.virtual_ip if data['virtual_ip']
+    virtual_mac data.virtual_mac if data['virtual_mac']
+    stp data.stp 
     notifies :run, "execute[reload_networking]", :delayed
   end
 end
