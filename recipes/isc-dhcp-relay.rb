@@ -17,8 +17,7 @@ if node['dhcp_relay']
       :servers    => servers,
       :interfaces => interfaces
     })
+    notifies :restart, 'service[isc-dhcp-relay]', :immediately
   end
-  service "isc-dhcp-relay" do
-      action :restart
-  end
+service 'isc-dhcp-relay'
 end
