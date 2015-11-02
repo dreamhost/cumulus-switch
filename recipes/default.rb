@@ -36,6 +36,9 @@ def cl_interface(interface, data)
     clagd_peer_ip data.clagd_peer_ip if data['clagd_peer_ip']
     clagd_priority data.clagd_priority if data['clagd_priority']
     clagd_sys_mac data.clagd_sys_mac if data['clagd_sys_mac']
+    mstpctl_portnetwork data.mstpctl_portnetwork unless data['mstpctl_portnetwork'].nil?
+    mstpctl_portadminedge data.mstpctl_portadminedge unless data['mstpctl_portadminedge'].nil?
+    mstpctl_bpduguard data.mstpctl_bpduguard unless data['mstpctl_bpduguard'].nil?
     notifies :run, "execute[reload_networking]", :delayed
     notifies :run, "execute[reload_loopback]", :delayed if interface =~ /^lo/
   end
@@ -50,6 +53,9 @@ node.cumulus_attr.bond.each do |bond, data|
     clag_id data.clag_id if data['clag_id']
     lacp_bypass_allow data.lacp_bypass_allow if data['lacp_bypass_allow']
     virtual_ip data.virtual_ip if data['virtual_ip']
+    mstpctl_portnetwork data.mstpctl_portnetwork unless data['mstpctl_portnetwork'].nil?
+    mstpctl_portadminedge data.mstpctl_portadminedge unless data['mstpctl_portadminedge'].nil?
+    mstpctl_bpduguard data.mstpctl_bpduguard unless data['mstpctl_bpduguard'].nil?
     notifies :run, "execute[reload_networking]", :delayed
   end
 end
