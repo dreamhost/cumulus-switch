@@ -62,7 +62,7 @@ node.cumulus_attr.bridge.each do |bridge, data|
     ipv6 data.ipv6 if data['ipv6']
     virtual_ip data.virtual_ip if data['virtual_ip']
     virtual_mac data.virtual_mac if data['virtual_mac']
-    stp data.stp 
+    stp data.stp unless data['stp'].nil?
     notifies :run, "execute[reload_networking]", :delayed
   end
 end
