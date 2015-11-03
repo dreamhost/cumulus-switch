@@ -1,13 +1,11 @@
 #
-# Cookbook Name:: cumulus-application-example
-# Recipe:: isc-dhcp-relay
+# Cookbook Name:: cumulus-switch
+# Recipe:: dhcp-relay
 #
 # Copyright 2015, DreamHost
 #
-# All rights reserved - Do Not Redistribute
-#
-# Servers are seperated with a space, as well as interfaces
 if node['dhcp_relay']
+  # Servers are seperated with a space, as well as interfaces
   servers    = node['dhcp_relay']['servers']
   interfaces = node['dhcp_relay']['interfaces']
 
@@ -17,7 +15,7 @@ if node['dhcp_relay']
       :servers    => servers,
       :interfaces => interfaces
     })
-    notifies :restart, 'service[isc-dhcp-relay]', :immediately
+    notifies :restart, 'service[isc-dhcp-relay]', :delayed
   end
-service 'isc-dhcp-relay'
+  service 'isc-dhcp-relay'
 end
