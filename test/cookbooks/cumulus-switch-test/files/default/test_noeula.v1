@@ -1,0 +1,11 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+email=example@cumulusnetworks.com
+account=Cumulus Networks
+expires=1420012800 #2014-12-31
+num_licenses=100
+NFR=1
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+I like ice cream
+-----END PGP SIGNATURE-----

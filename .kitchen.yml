@@ -1,0 +1,20 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_solo
+  require_chef_omnibus: false
+
+platforms:
+  - name: cumulus-vx-2.5.3
+    driver:
+      box: cumulus-vx-2.5.3
+      box_url: 'https://objects.dreamhost.com/public-github/vagrant/boxes/cumulus-vx-2.5.3-chef-vbox.box'
+      provision: true
+      vagrantfiles: ['test/provision-chef.rb']
+
+suites:
+  - name: default
+    run_list:
+      - recipe[cumulus-switch-test]
