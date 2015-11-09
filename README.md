@@ -23,19 +23,19 @@ Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
 `node[:cumulus][:interface]` | A hash of interfaces. Keys are the interface name, values are a hash with optional configuration. | Hash | `{}`
 `node[:cumulus][:interface][$NAME]` | Configuration values for interface $NAME.  This will be the base for the following attributes. | Hash | `nil`
-`node[...][:ipv4]` | IPv4 address(s) to assign to the interface. | String or Array | `nil`
-`node[...][:ipv6]` | IPv6 address(s) to assign to the interface. | String or Array | `nil`
-`node[...][:speed]` | Speed to configure for the interface. | String | `nil`
-`node[...][:mtu]` | MTU to configure for the interface. | Integer | `nil`
-`node[...][:post_up]` | Post-up command(s) to run | String or Array | `nil`
-`node[...][:addr_method]` | Address assignment method, `dhcp` or `loopback`. | String | `nil`
-`node[...][:mstpctl_portnetwork]` | Enable bridge assurance on a VLAN aware trunk. | Boolean | `nil`
-`node[...][:mstpctl_portadminedge]` | Enables admin edge port. | Boolean | `nil`
-`node[...][:mstpctl_bpduguard]` | Enable BPDU guard on a VLAN aware trunk. | Boolean | `nil`
-`node[...][:clagd_enable]` | Enable CLAGD on the interface ([documentation](http://docs.cumulusnetworks.com/display/DOCS/Multi-Chassis+Link+Aggregation+-+MLAG)). | Boolean | `nil`
-`node[...][:clagd_peer_ip]` | Address of the CLAG peer switch | String | `nil`
-`node[...][:clagd_priority]` | CLAG priority for this switch | Integer | `nil`
-`node[...][:clagd_sys_mac]` | CLAG system MAC. The MAC must be identical on both of the CLAG peers. | String | `nil`
+`[:ipv4]` | IPv4 address(s) to assign to the interface. | String or Array | `nil`
+`[:ipv6]` | IPv6 address(s) to assign to the interface. | String or Array | `nil`
+`[:speed]` | Speed to configure for the interface. | String | `nil`
+`[:mtu]` | MTU to configure for the interface. | Integer | `nil`
+`[:post_up]` | Post-up command(s) to run | String or Array | `nil`
+`[:addr_method]` | Address assignment method, `dhcp` or `loopback`. | String | `nil`
+`[:mstpctl_portnetwork]` | Enable bridge assurance on a VLAN aware trunk. | Boolean | `nil`
+`[:mstpctl_portadminedge]` | Enables admin edge port. | Boolean | `nil`
+`[:mstpctl_bpduguard]` | Enable BPDU guard on a VLAN aware trunk. | Boolean | `nil`
+`[:clagd_enable]` | Enable CLAGD on the interface ([documentation](http://docs.cumulusnetworks.com/display/DOCS/Multi-Chassis+Link+Aggregation+-+MLAG)). | Boolean | `nil`
+`[:clagd_peer_ip]` | Address of the CLAG peer switch | String | `nil`
+`[:clagd_priority]` | CLAG priority for this switch | Integer | `nil`
+`[:clagd_sys_mac]` | CLAG system MAC. The MAC must be identical on both of the CLAG peers. | String | `nil`
 
 Note!  You can use all of the above attributes on `node[:cumulus][:interface_range][$NAME]` as well.  Use a a String in a format like `swp[1-24].100` or `swp[2-5]` for $NAME.
 
@@ -45,12 +45,12 @@ Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
 `node[:cumulus][:bridge]` | A hash of bridges. Keys are the bridge name, values are a hash with configuration for the bridge. | Hash | `{}`
 `node[:cumulus][:bridge][$NAME]` | Configuration values for bridge $NAME.  This will be the base for the following attributes. | Hash | `nil`
-`node[...][:ports]` | Interfaces to place in the bridge (*required*). | Array | `required`
-`node[...][:ipv4]` | IPv4 address(s) to assign to the bridge. | Array | `nil`
-`node[...][:ipv6]` | IPv6 address(s) to assign to the bridge. | Array | `nil`
-`node[...][:virtual_ip]` | VRR virtual IP ([documentation](http://docs.cumulusnetworks.com/display/DOCS/Virtual+Router+Redundancy+-+VRR)). | String | `nil`
-`node[...][:virtual_mac]` | VRR virtual MAC address ([documentation](http://docs.cumulusnetworks.com/display/DOCS/Virtual+Router+Redundancy+-+VRR)). | String | `nil`
-`node[...][:stp]` | Enable STP on the bridge. | Boolean | `true`
+`[:ports]` | Interfaces to place in the bridge (*required*). | Array | `required`
+`[:ipv4]` | IPv4 address(s) to assign to the bridge. | Array | `nil`
+`[:ipv6]` | IPv6 address(s) to assign to the bridge. | Array | `nil`
+`[:virtual_ip]` | VRR virtual IP ([documentation](http://docs.cumulusnetworks.com/display/DOCS/Virtual+Router+Redundancy+-+VRR)). | String | `nil`
+`[:virtual_mac]` | VRR virtual MAC address ([documentation](http://docs.cumulusnetworks.com/display/DOCS/Virtual+Router+Redundancy+-+VRR)). | String | `nil`
+`[:stp]` | Enable STP on the bridge. | Boolean | `true`
 
 ### Bonds
 
@@ -58,13 +58,13 @@ Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
 `node[:cumulus][:bond]` | A hash of bonds. Keys are the bond name, values are a hash with configuration for the bond. | Hash | `{}`
 `node[:cumulus][:bond][$NAME]` | Configuration values for bond $NAME.  This will be the base for the following attributes. | Hash | `nil`
-`node[...][:ipv4]` | IPv4 address(s) to assign to the bond. | String or Array | `nil`
-`node[...][:ipv6]` | IPv6 address(s) to assign to the bond. | String or Array | `nil`
-`node[...][:slaves]` | Bond members (*required*). | Array | `required`
-`node[...][:mstpctl_portnetwork]` | Enable bridge assurance on a VLAN aware trunk. | Boolean | `nil`
-`node[...][:mstpctl_portadminedge]` | Enables admin edge port. | Boolean | `nil`
-`node[...][:mstpctl_bpduguard]` | Enable BPDU guard on a VLAN aware trunk. | Boolean | `nil`
-`node[...][:clag_id]` | Identifier for a CLAG bond. The ID must be the same on both CLAG peers. | Integer | `nil`
+`node[:ipv4]` | IPv4 address(s) to assign to the bond. | String or Array | `nil`
+`node[:ipv6]` | IPv6 address(s) to assign to the bond. | String or Array | `nil`
+`node[:slaves]` | Bond members (*required*). | Array | `required`
+`node[:mstpctl_portnetwork]` | Enable bridge assurance on a VLAN aware trunk. | Boolean | `nil`
+`node[:mstpctl_portadminedge]` | Enables admin edge port. | Boolean | `nil`
+`node[:mstpctl_bpduguard]` | Enable BPDU guard on a VLAN aware trunk. | Boolean | `nil`
+`node[:clag_id]` | Identifier for a CLAG bond. The ID must be the same on both CLAG peers. | Integer | `nil`
 
 ### Ports
 Attribute        | Description |Type | Default
