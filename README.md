@@ -22,7 +22,7 @@ an Array of Strings for multiple values.
 Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
 `node[:cumulus][:interface]` | A hash of interfaces. Keys are the interface name, values are a hash with optional configuration. | Hash | `{}`
-`node[:cumulus][:interface][$NAME]` | Configuration values for interface $NAME.  This will be the base for the following attributes. | Hash | `{}`
+`node[:cumulus][:interface][$NAME]` | Configuration values for interface $NAME.  This will be the base for the following attributes. | Hash | `nil`
 `node[...][:ipv4]` | IPv4 address(s) to assign to the interface. | String or Array | `nil`
 `node[...][:ipv6]` | IPv6 address(s) to assign to the interface. | String or Array | `nil`
 `node[...][:speed]` | Speed to configure for the interface. | String | `nil`
@@ -44,7 +44,7 @@ Note!  You can use all of the above attributes on `node[:cumulus][:interface_ran
 Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
 `node[:cumulus][:bridge]` | A hash of bridges. Keys are the bridge name, values are a hash with configuration for the bridge. | Hash | `{}`
-`node[:cumulus][:bridge][$NAME]` | Configuration values for bridge $NAME.  This will be the base for the following attributes. | Hash | `{}`
+`node[:cumulus][:bridge][$NAME]` | Configuration values for bridge $NAME.  This will be the base for the following attributes. | Hash | `nil`
 `node[...][:ports]` | Interfaces to place in the bridge (*required*). | Array | `required`
 `node[...][:ipv4]` | IPv4 address(s) to assign to the bridge. | Array | `nil`
 `node[...][:ipv6]` | IPv6 address(s) to assign to the bridge. | Array | `nil`
@@ -57,7 +57,7 @@ Attribute        | Description |Type | Default
 Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
 `node[:cumulus][:bond]` | A hash of bonds. Keys are the bond name, values are a hash with configuration for the bond. | Hash | `{}`
-`node[:cumulus][:bond][$NAME]` | Configuration values for bond $NAME.  This will be the base for the following attributes. | Hash | `{}`
+`node[:cumulus][:bond][$NAME]` | Configuration values for bond $NAME.  This will be the base for the following attributes. | Hash | `nil`
 `node[...][:ipv4]` | IPv4 address(s) to assign to the bond. | String or Array | `nil`
 `node[...][:ipv6]` | IPv6 address(s) to assign to the bond. | String or Array | `nil`
 `node[...][:slaves]` | Bond members (*required*). | Array | `required`
@@ -66,7 +66,8 @@ Attribute        | Description |Type | Default
 `node[...][:mstpctl_bpduguard]` | Enable BPDU guard on a VLAN aware trunk. | Boolean | `nil`
 `node[...][:clag_id]` | Identifier for a CLAG bond. The ID must be the same on both CLAG peers. | Integer | `nil`
 
-### P...Type | Default
+### Ports
+Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
 `node[:cumulus][:ports]['10g']` | Array of ports to be configured for 10GbE. | Array | `[]`
 `node[:cumulus][:ports]['40g']` | Array of ports to be configured for 40GbE. | Array | `[]`
