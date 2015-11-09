@@ -58,13 +58,13 @@ Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
 `node[:cumulus][:bond]` | A hash of bonds. Keys are the bond name, values are a hash with configuration for the bond. | Hash | `{}`
 `node[:cumulus][:bond][$NAME]` | Configuration values for bond $NAME.  This will be the base for the following attributes. | Hash | `nil`
-`node[:ipv4]` | IPv4 address(s) to assign to the bond. | String or Array | `nil`
-`node[:ipv6]` | IPv6 address(s) to assign to the bond. | String or Array | `nil`
-`node[:slaves]` | Bond members (*required*). | Array | `required`
-`node[:mstpctl_portnetwork]` | Enable bridge assurance on a VLAN aware trunk. | Boolean | `nil`
-`node[:mstpctl_portadminedge]` | Enables admin edge port. | Boolean | `nil`
-`node[:mstpctl_bpduguard]` | Enable BPDU guard on a VLAN aware trunk. | Boolean | `nil`
-`node[:clag_id]` | Identifier for a CLAG bond. The ID must be the same on both CLAG peers. | Integer | `nil`
+`[:ipv4]` | IPv4 address(s) to assign to the bond. | String or Array | `nil`
+`[:ipv6]` | IPv6 address(s) to assign to the bond. | String or Array | `nil`
+`[:slaves]` | Bond members (*required*). | Array | `required`
+`[:mstpctl_portnetwork]` | Enable bridge assurance on a VLAN aware trunk. | Boolean | `nil`
+`[:mstpctl_portadminedge]` | Enables admin edge port. | Boolean | `nil`
+`[:mstpctl_bpduguard]` | Enable BPDU guard on a VLAN aware trunk. | Boolean | `nil`
+`[:clag_id]` | Identifier for a CLAG bond. The ID must be the same on both CLAG peers. | Integer | `nil`
 
 ### Ports
 Attribute        | Description |Type | Default
