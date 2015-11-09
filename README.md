@@ -1,78 +1,120 @@
-cumulus-application-example Cookbook
-=============
-This cookbook effectively wraps the cumulus-linux-chef-modules cookbook's LWRPs, allowing configuration of a Cumulus switch using node attributes.
+Description
+===========
+
+This cookbook provides an interface via attributes to the [official Cumulus cookbook](https://github.com/CumulusNetworks/cumulus-linux-chef-modules)'s providers.
+
+You can use this cookbook to configure interfaces (including bridges and bonds), ports, licensing, and more.  The idea here is to be able to have a flexible interface that can be used for configuring Cumulus gear in any environment.  It works especially well when paired with the [quagga](https://github.com/floored1585/quagga-cookbook) cookbook, allowing complete automation and templating for both routing and switching on a Cumulus device.
 
 Requirements
-------------
-TODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.
+============
 
-e.g.
-#### packages
-- `toaster` - cumulus-application-example needs toaster to brown your bagel.
+Tested on:
+* Cumulus Linux 1.5.3
 
 Attributes
-----------
+==========
 
-Quick example.  This needs organizing...
+NOTE! Where you see "String or Array" for type, a String may be used _only_ for single values.  Use 
+an Array of Strings for multiple values.
 
-node.default['dh_network']['bridge']['bridge-name']['ipv4'] = ['203.0.113.1/24']  
-node.default['dh_network']['bridge']['bridge-name']['ipv6'] = ['2001:DB8::1/64']  
-node.default['dh_network']['bridge']['bridge-name']['ports'] = ['swp1-24']  
-node.default['dh_network']['interface_range']['swp[1-24]']['speed'] = '10000'  
-node.default['dh_network']['interface_range']['swp[1-24]']['mtu'] = 9000  
-node.default['dh_network']['interface']['eth0'] = {}  
-node.default['dh_network']['interface']['swp1']['speed'] = '10000'  
-node.default['dh_network']['interface']['swp1']['mtu'] = 9000  
-node.default['dh_network']['ports']['10g'] = ['swp1-24']  
+### Interfaces & interface ranges
 
-TODO: List your cookbook attributes here.
+Attribute        | Description |Type | Default
+-----------------|-------------|-----|--------
+`node[:cumulus][:interface]` | A hash of interfaces. Keys are the interface name, values are a hash with optional configuration. | Hash | `{}`
+`node[:cumulus][:interface][$NAME][:ipv4]` | IPv4 address(s) to assign to the interface. | String or Array | `nil`
+`node[:cumulus][:interface][$NAME][:ipv6]` | IPv6 address(s) to assign to the interface. | String or Array | `nil`
+`node[:cumulus][:interface][$NAME][:speed]` | Speed to configure for the interface. | String | `nil`
+`node[:cumulus][:interface][$NAME][:mtu]` | MTU to configure for the interface. | Integer | `nil`
+`node[:cumulus][:interface][$NAME][:post_up]` | Post-up command(s) to run | String or Array | `nil`
+`node[:cumulus][:interface][$NAME][:addr_method]` | Address assignment method, `dhcp` or `loopback`. | String | `nil`
+`node[:cumulus][:interface][$NAME][:mstpctl_portnetwork]` | Enable bridge assurance on a VLAN aware trunk. | Boolean | `nil`
+`node[:cumulus][:interface][$NAME][:mstpctl_portadminedge]` | Enables admin edge port. | Boolean | `nil`
+`node[:cumulus][:interface][$NAME][:mstpctl_bpduguard]` | Enable BPDU guard on a VLAN aware trunk. | Boolean | `nil`
+`node[:cumulus][:interface][$NAME][:clagd_enable]` | Enable CLAGD on the interface ([documentation](http://docs.cumulusnetworks.com/display/DOCS/Multi-Chassis+Link+Aggregation+-+MLAG)). | Boolean | `nil`
+`node[:cumulus][:interface][$NAME][:clagd_peer_ip]` | Address of the CLAG peer switch | String | `nil`
+`node[:cumulus][:interface][$NAME][:clagd_priority]` | CLAG priority for this switch | Integer | `nil`
+`node[:cumulus][:interface][$NAME][:clagd_sys_mac]` | CLAG system MAC. The MAC must be identical on both of the CLAG peers. | String | `nil`
 
-e.g.
-#### cumulus-application-example::default
-<table>
-  <tr>
-    <th>Key</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td><tt>['cumulus-application-example']['bacon']</tt></td>
-    <td>Boolean</td>
-    <td>whether to include bacon</td>
-    <td><tt>true</tt></td>
-  </tr>
-</table>
+Note!  You can use all of the above attributes on `node[:cumulus][:interface_range][$NAME]` as well.  Use a a String in a format like `swp[1-24].100` or `swp[2-5]` for $NAME.
+
+### Bridges
+
+Attribute        | Description |Type | Default
+-----------------|-------------|-----|--------
+`node[:cumulus][:bridge]` | A hash of bridges. Keys are the bridge name, values are a hash with configuration for the bridge. | Hash | `{}`
+`node[:cumulus][:bridge][$NAME][:ports]` | Interfaces to place in the bridge (*required*). | Array | `required`
+`node[:cumulus][:bridge][$NAME][:ipv4]` | IPv4 address(s) to assign to the bridge. | Array | `nil`
+`node[:cumulus][:bridge][$NAME][:ipv6]` | IPv6 address(s) to assign to the bridge. | Array | `nil`
+`node[:cumulus][:bridge][$NAME][:virtual_ip]` | VRR virtual IP ([documentation](http://docs.cumulusnetworks.com/display/DOCS/Virtual+Router+Redundancy+-+VRR)). | String | `nil`
+`node[:cumulus][:bridge][$NAME][:virtual_mac]` | VRR virtual MAC address ([documentation](http://docs.cumulusnetworks.com/display/DOCS/Virtual+Router+Redundancy+-+VRR)). | String | `nil`
+`node[:cumulus][:bridge][$NAME][:stp]` | Enable STP on the bridge. | Boolean | `true`
+
+### Bonds
+
+Attribute        | Description |Type | Default
+-----------------|-------------|-----|--------
+`node[:cumulus][:bond]` | A hash of bonds. Keys are the bond name, values are a hash with configuration for the bond. | Hash | `{}`
+`node[:cumulus][:bond][$NAME][:ipv4]` | IPv4 address(s) to assign to the bond. | String or Array | `nil`
+`node[:cumulus][:bond][$NAME][:ipv6]` | IPv6 address(s) to assign to the bond. | String or Array | `nil`
+`node[:cumulus][:bond][$NAME][:slaves]` | Bond members (*required*). | Array | `required`
+`node[:cumulus][:bond][$NAME][:mstpctl_portnetwork]` | Enable bridge assurance on a VLAN aware trunk. | Boolean | `nil`
+`node[:cumulus][:bond][$NAME][:mstpctl_portadminedge]` | Enables admin edge port. | Boolean | `nil`
+`node[:cumulus][:bond][$NAME][:mstpctl_bpduguard]` | Enable BPDU guard on a VLAN aware trunk. | Boolean | `nil`
+`node[:cumulus][:bond][$NAME][:clag_id]` | Identifier for a CLAG bond. The ID must be the same on both CLAG peers. | Integer | `nil`
+
+### Ports
+
+Attribute        | Description |Type | Default
+-----------------|-------------|-----|--------
+`node[:cumulus][:ports]['10g']` | Array of ports to be configured for 10GbE. | Array | `[]`
+`node[:cumulus][:ports]['40g']` | Array of ports to be configured for 40GbE. | Array | `[]`
+`node[:cumulus][:ports]['40g_div_4']` | Array of ports to be configured for 40GbE split to 4 x 10GbE. | Array | `[]`
+`node[:cumulus][:ports]['4_by_10g']` | Array of ports to be configured for 10GbE to be aggregated into 1 x 40GbE. | Array | `[]`
 
 Usage
------
-#### cumulus-application-example::default
-TODO: Write usage instructions for each cookbook.
+=====
 
-e.g.
-Just include `cumulus-application-example` in your node's `run_list`:
+Simply set the desired attributes (see Attributes section above) then call the proper recipe (cumulus-switch::base).
 
-```json
-{
-  "name":"my_node",
-  "run_list": [
-    "recipe[cumulus-application-example]"
-  ]
-}
-```
+### BGP Example
+
+Coming soon, maybe
 
 Contributing
-------------
-TODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.
+============
 
-e.g.
-1. Fork the repository on Github
-2. Create a named feature branch (like `add_component_x`)
-3. Write your change
-4. Write tests for your change (if applicable)
-5. Run the tests, ensuring they all pass
-6. Submit a Pull Request using Github
+Any form of contribution is welcome!  Feature requests, bug reports, pull requests, whatever!
+If you add features, make sure there are tests for them, and if you change any code, make sure
+the existing tests all pass _before_ creating a pull request.
 
-License and Authors
--------------------
-Authors: TODO: List authors
+Tests are run on a [Cumulus VX](https://cumulusnetworks.com/cumulus-vx) VM using serverspec.
+
+Testing requirements:
+* Vagrant
+* VirtualBox
+
+To run the tests (after installing prerequisites):
+* `bundle install`
+* `rake rubocop`
+* `foodcritic .`
+* `rake test`
+
+Author and License
+===================
+
+Copyright 2015, DreamHost
+
+### License
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
