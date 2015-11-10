@@ -7,7 +7,7 @@ What can this configure?
 * Interfaces
 * Bridges
 * Bonds
-* Port HW
+* Ports
 * Management VRF
 
 The idea here is to be able to have a flexible interface that can be used for configuring Cumulus gear in any environment.  It works especially well when paired with the [quagga](https://github.com/floored1585/quagga-cookbook) cookbook, allowing complete automation and templating for routing, switching, and management on a Cumulus device.
@@ -17,6 +17,29 @@ Requirements
 
 Tested on:
 * Cumulus Linux 2.5.3
+
+Recipes
+==========
+
+### default
+
+The default recipe does nothing.
+
+### base
+
+The base recipe enables configuration of:
+* Interfaces
+* Bridges
+* Bonds
+* Ports
+
+### isc-dhcp-relay
+
+The isc-dhcp-relay recipe enables configuration of a dhcp relay.  This is a temporary measure, and won't be here for long.
+
+### mgmt-vrf
+
+The mgmt-vrf recipe enables configuration of a Management VRF ([documentation](http://docs.cumulusnetworks.com/display/DOCS/Management+VRF))
 
 Attributes
 ==========
