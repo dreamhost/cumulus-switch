@@ -3,13 +3,20 @@ Description
 
 This cookbook provides an interface via attributes to the [official Cumulus cookbook](https://github.com/CumulusNetworks/cumulus-linux-chef-modules)'s providers.
 
-You can use this cookbook to configure interfaces (including bridges and bonds), ports, licensing, and more.  The idea here is to be able to have a flexible interface that can be used for configuring Cumulus gear in any environment.  It works especially well when paired with the [quagga](https://github.com/floored1585/quagga-cookbook) cookbook, allowing complete automation and templating for both routing and switching on a Cumulus device.
+What can this configure?
+* Interfaces
+* Bridges
+* Bonds
+* Port HW
+* Management VRF
+
+The idea here is to be able to have a flexible interface that can be used for configuring Cumulus gear in any environment.  It works especially well when paired with the [quagga](https://github.com/floored1585/quagga-cookbook) cookbook, allowing complete automation and templating for routing, switching, and management on a Cumulus device.
 
 Requirements
 ============
 
 Tested on:
-* Cumulus Linux 1.5.3
+* Cumulus Linux 2.5.3
 
 Attributes
 ==========
@@ -67,6 +74,7 @@ Attribute        | Description |Type | Default
 `[:clag_id]` | Identifier for a CLAG bond. The ID must be the same on both CLAG peers. | Integer | `nil`
 
 ### Ports
+
 Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
 `node[:cumulus][:ports]['10g']` | Array of ports to be configured for 10GbE. | Array | `[]`
@@ -74,12 +82,19 @@ Attribute        | Description |Type | Default
 `node[:cumulus][:ports]['40g_div_4']` | Array of ports to be configured for 40GbE split to 4 x 10GbE. | Array | `[]`
 `node[:cumulus][:ports]['4_by_10g']` | Array of ports to be configured for 10GbE to be aggregated into 1 x 40GbE. | Array | `[]`
 
+### Management VRF
+
+Attribute        | Description |Type | Default
+-----------------|-------------|-----|--------
+`node[:cumulus][:mgmt_vrf][:enabled]` | Enables or disables management VRF ([documentation](http://docs.cumulusnetworks.com/display/DOCS/Management+VRF)).  Note: this is `nil` by default, which causes no actions to be taken.  `true` will install and configure the management vrf. `false` will remove the package and disable the management vrf. | Boolean | `nil`
+`node[:cumulus][:mgmt_vrf][:restart_quagga]` | Restart Quagga if management VRF status changes. | Boolean | `nil`
+
 Usage
 =====
 
 Simply set the desired attributes (see Attributes section above) then call the proper recipe (cumulus-switch::base).
 
-### BGP Example
+### Example
 
 Coming soon, maybe
 
