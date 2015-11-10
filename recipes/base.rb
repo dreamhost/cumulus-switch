@@ -23,8 +23,8 @@ def cl_interface(interface, data)
     mstpctl_portnetwork data.mstpctl_portnetwork unless data['mstpctl_portnetwork'].nil?
     mstpctl_portadminedge data.mstpctl_portadminedge unless data['mstpctl_portadminedge'].nil?
     mstpctl_bpduguard data.mstpctl_bpduguard unless data['mstpctl_bpduguard'].nil?
-    notifies :run, "execute[reload_networking]", :delayed
-    notifies :run, "execute[reload_loopback]", :delayed if interface =~ /^lo/
+    notifies :run, 'execute[reload_networking]', :delayed
+    notifies :run, 'execute[reload_loopback]', :delayed if interface =~ /^lo/
   end
 end
 
@@ -35,7 +35,7 @@ end
 
 # Interface ranges
 node.cumulus.interface_range.each do |range_str, data|
-  # range str should be something like "swp[1-24].100" or "swp[2-5]"
+  # range str should be something like 'swp[1-24].100' or 'swp[2-5]'
   range = range_str.match(/\[(\d+)-(\d+)\]/)
   (range[1]..range[2]).each do |id|
     ifname = range_str.gsub(/\[\d+-\d+\]/, id)
@@ -55,7 +55,7 @@ node.cumulus.bond.each do |bond, data|
     mstpctl_portnetwork data.mstpctl_portnetwork unless data['mstpctl_portnetwork'].nil?
     mstpctl_portadminedge data.mstpctl_portadminedge unless data['mstpctl_portadminedge'].nil?
     mstpctl_bpduguard data.mstpctl_bpduguard unless data['mstpctl_bpduguard'].nil?
-    notifies :run, "execute[reload_networking]", :delayed
+    notifies :run, 'execute[reload_networking]', :delayed
   end
 end
 
@@ -68,7 +68,7 @@ node.cumulus.bridge.each do |bridge, data|
     virtual_ip data.virtual_ip if data['virtual_ip']
     virtual_mac data.virtual_mac if data['virtual_mac']
     stp data.stp unless data['stp'].nil?
-    notifies :run, "execute[reload_networking]", :delayed
+    notifies :run, 'execute[reload_networking]', :delayed
   end
 end
 
@@ -78,5 +78,5 @@ cumulus_ports 'speeds' do
   speed_40g node.cumulus.ports['40g'] if node.cumulus.ports['40g']
   speed_40g_div_4 node.cumulus.ports['40g_div_4'] if node.cumulus.ports['40g_div_4']
   speed_4_by_10g node.cumulus.ports['4_by_10g'] if node.cumulus.ports['4_by_10g']
-  notifies :restart, "service[switchd]", :delayed if node.cumulus.restart_switchd
+  notifies :restart, 'service[switchd]', :delayed if node.cumulus.restart_switchd
 end

@@ -47,6 +47,12 @@ Attributes
 NOTE! Where you see "String or Array" for type, a String may be used _only_ for single values.  Use 
 an Array of Strings for multiple values.
 
+### General
+
+Attribute        | Description |Type | Default
+-----------------|-------------|-----|--------
+`node[:cumulus][:restart_switchd]` | Restart switchd when port changes are made. | Boolean | `false`
+
 ### Interfaces & interface ranges
 
 Attribute        | Description |Type | Default

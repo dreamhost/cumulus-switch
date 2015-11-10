@@ -1,3 +1,8 @@
+## 0.1.6 (TBD)
+
+Code Cleanup:
+  - style fixes (@floored1585)
+
 ## 0.1.5 (2015-11-10)
 
 Features:
