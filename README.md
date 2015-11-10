@@ -21,11 +21,11 @@ Tested on:
 Recipes
 ==========
 
-### default
+### cumulus-switch::default
 
 The default recipe does nothing.
 
-### base
+### cumulus-switch::base
 
 The base recipe enables configuration of:
 * Interfaces
@@ -33,11 +33,11 @@ The base recipe enables configuration of:
 * Bonds
 * Ports
 
-### isc-dhcp-relay
+### cumulus-switch::isc-dhcp-relay
 
 The isc-dhcp-relay recipe enables configuration of a dhcp relay.  This is a temporary measure, and won't be here for long.
 
-### mgmt-vrf
+### cumulus-switch::mgmt-vrf
 
 The mgmt-vrf recipe enables configuration of a Management VRF ([documentation](http://docs.cumulusnetworks.com/display/DOCS/Management+VRF))
 
