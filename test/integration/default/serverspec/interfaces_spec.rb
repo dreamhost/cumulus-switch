@@ -46,24 +46,24 @@ describe file("#{intf_dir}/swp2") do
   its(:content) { should match(/address 192.168.200.1/) }
   its(:content) { should match(/address 2001:db8:5678::/) }
   its(:content) { should match(/mtu 9000/) }
-#  its(:content) { should match(/bridge-vids 1-4094/) }
-#  its(:content) { should match(/bridge-pvid 1/) }
+  # its(:content) { should match(/bridge-vids 1-4094/) }
+  # its(:content) { should match(/bridge-pvid 1/) }
   its(:content) { should match(/link-speed 1000/) }
   its(:content) { should match(/link-duplex full/) }
-#  its(:content) { should match(/alias "interface swp2"/) }
+  # its(:content) { should match(/alias "interface swp2"/) }
   its(:content) { should match(/mstpctl-portnetwork yes/) }
   its(:content) { should match(/mstpctl-portadminedge yes/) }
   its(:content) { should match(/mstpctl-bpduguard yes/) }
-#  its(:content) { should match(/address-virtual/) }
-  its(:content) { should match(/post-up ip route add 10.0.0.0\/8 via 192.168.200.2/) }
-  its(:content) { should match(/post-up ip route add 172.16.0.0\/12 via 192.168.200.2/) }
-#  its(:content) { should match(/pre-down ip route del 10.0.0.0\/8 via 192.168.200.2/) }
-#  its(:content) { should match(/pre-down ip route del 172.16.0.0\/12 via 192.168.200.2/) }
+  # its(:content) { should match(/address-virtual/) }
+  its(:content) { should match(%r{post-up ip route add 10.0.0.0/8 via 192.168.200.2}) }
+  its(:content) { should match(%r{post-up ip route add 172.16.0.0/12 via 192.168.200.2}) }
+  # its(:content) { should match(/pre-down ip route del 10.0.0.0\/8 via 192.168.200.2/) }
+  # its(:content) { should match(/pre-down ip route del 172.16.0.0\/12 via 192.168.200.2/) }
 end
 
 # post_up should work as String as well as Array
 describe file("#{intf_dir}/swp3") do
   its(:content) { should match(/iface swp3/) }
-  its(:content) { should match(/post-up ip route add 192.168.0.0\/16 via 192.168.200.2/) }
-#  its(:content) { should match(/pre-down ip route del 192.168.0.0\/16 via 192.168.200.2/) }
+  its(:content) { should match(%r{post-up ip route add 192.168.0.0/16 via 192.168.200.2}) }
+  # its(:content) { should match(/pre-down ip route del 192.168.0.0\/16 via 192.168.200.2/) }
 end

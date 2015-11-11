@@ -13,8 +13,8 @@ describe file('/etc/cumulus/ports.conf') do
   its(:content) { should match(/1=10G/) }
   its(:content) { should match(/2=40G/) }
   its(:content) { should match(/3=40G/) }
-  its(:content) { should match(/4=40G\/4/) }
-  its(:content) { should match(/5=40G\/4/) }
+  its(:content) { should match(%r{4=40G/4}) }
+  its(:content) { should match(%r{5=40G/4}) }
   its(:content) { should match(/6=4x10G/) }
   its(:content) { should match(/7=4x10G/) }
   its(:content) { should match(/8=4x10G/) }
