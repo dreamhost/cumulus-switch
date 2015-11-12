@@ -1,7 +1,7 @@
 Description
 ===========
 
-This cookbook provides an interface via attributes to the [official Cumulus cookbook](https://github.com/CumulusNetworks/cumulus-linux-chef-modules)'s providers.
+This cookbook provides an interface via attributes to the [official Cumulus cookbook](https://github.com/CumulusNetworks/cumulus-linux-chef-modules)'s providers, and then some.
 
 What can this configure?
 * Interfaces
@@ -47,13 +47,8 @@ Attributes
 NOTE! Where you see "String or Array" for type, a String may be used _only_ for single values.  Use 
 an Array of Strings for multiple values.
 
-### General
-
-Attribute        | Description |Type | Default
------------------|-------------|-----|--------
-`node[:cumulus][:restart_switchd]` | Restart switchd when port changes are made. | Boolean | `false`
-
-### Interfaces & interface ranges
+### cumulus-switch::base
+#### Interfaces & interface ranges
 
 Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
@@ -75,7 +70,7 @@ Attribute        | Description |Type | Default
 
 Note!  You can use all of the above attributes on `node[:cumulus][:interface_range][$NAME]` as well.  Use a a String in a format like `swp[1-24].100` or `swp[2-5]` for $NAME.
 
-### Bridges
+#### Bridges
 
 Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
@@ -88,7 +83,7 @@ Attribute        | Description |Type | Default
 `[:virtual_mac]` | VRR virtual MAC address ([documentation](http://docs.cumulusnetworks.com/display/DOCS/Virtual+Router+Redundancy+-+VRR)). | String | `nil`
 `[:stp]` | Enable STP on the bridge. | Boolean | `true`
 
-### Bonds
+#### Bonds
 
 Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
@@ -102,16 +97,17 @@ Attribute        | Description |Type | Default
 `[:mstpctl_bpduguard]` | Enable BPDU guard on a VLAN aware trunk. | Boolean | `nil`
 `[:clag_id]` | Identifier for a CLAG bond. The ID must be the same on both CLAG peers. | Integer | `nil`
 
-### Ports
+#### Ports
 
 Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
+`node[:cumulus][:restart_switchd]` | Restart switchd when port changes are made. | Boolean | `false`
 `node[:cumulus][:ports]['10g']` | Array of ports to be configured for 10GbE. | Array | `[]`
 `node[:cumulus][:ports]['40g']` | Array of ports to be configured for 40GbE. | Array | `[]`
 `node[:cumulus][:ports]['40g_div_4']` | Array of ports to be configured for 40GbE split to 4 x 10GbE. | Array | `[]`
 `node[:cumulus][:ports]['4_by_10g']` | Array of ports to be configured for 10GbE to be aggregated into 1 x 40GbE. | Array | `[]`
 
-### Management VRF
+### cumulus-switch::mgmt_vrf
 
 Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
@@ -121,7 +117,7 @@ Attribute        | Description |Type | Default
 Usage
 =====
 
-Simply set the desired attributes (see Attributes section above) then call the proper recipe (cumulus-switch::base).
+Simply set the desired attributes (see Attributes section above) then call the applicable recipe.
 
 ### Example
 
@@ -134,7 +130,7 @@ Any form of contribution is welcome!  Feature requests, bug reports, pull reques
 If you add features, make sure there are tests for them, and if you change any code, make sure
 the existing tests all pass _before_ creating a pull request.
 
-Tests are run on a [Cumulus VX](https://cumulusnetworks.com/cumulus-vx) VM using serverspec.
+Tests are run on [Cumulus VX](https://cumulusnetworks.com/cumulus-vx) VMs using serverspec.
 
 Testing requirements:
 * Vagrant
