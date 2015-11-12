@@ -47,7 +47,9 @@ Attributes
 NOTE! Where you see "String or Array" for type, a String may be used _only_ for single values.  Use 
 an Array of Strings for multiple values.
 
-### cumulus-switch::base
+cumulus-switch::base
+---
+
 #### Interfaces & interface ranges
 
 Attribute        | Description |Type | Default
@@ -107,7 +109,8 @@ Attribute        | Description |Type | Default
 `node[:cumulus][:ports]['40g_div_4']` | Array of ports to be configured for 40GbE split to 4 x 10GbE. | Array | `[]`
 `node[:cumulus][:ports]['4_by_10g']` | Array of ports to be configured for 10GbE to be aggregated into 1 x 40GbE. | Array | `[]`
 
-### cumulus-switch::mgmt_vrf
+cumulus-switch::mgmt_vrf
+---
 
 Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
