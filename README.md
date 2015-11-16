@@ -58,10 +58,15 @@ Attribute        | Description |Type | Default
 `node[:cumulus][:interface][$NAME]` | Configuration values for interface $NAME.  This will be the base for the following attributes. | Hash | `nil`
 `[:ipv4]` | IPv4 address(s) to assign to the interface. | String or Array | `nil`
 `[:ipv6]` | IPv6 address(s) to assign to the interface. | String or Array | `nil`
+`[:alias]` | Interface alias (description). | String | `nil`
 `[:speed]` | Speed to configure for the interface. | String | `nil`
 `[:mtu]` | MTU to configure for the interface. | Integer | `nil`
 `[:post_up]` | Post-up command(s) to run | String or Array | `nil`
 `[:addr_method]` | Address assignment method, `dhcp` or `loopback`. | String | `nil`
+`[:virtual_mac]` | VRR virtual MAC. | String | `nil`
+`[:virtual_ip]` | VRR virtual IP. | String | `nil`
+`[:vids]` | Array of VLANs to be configured for a VLAN aware trunk interface. | Array | `nil`
+`[:pvid]` | Native VLAN for a VLAN aware trunk interface. | Integer | `nil`
 `[:mstpctl_portnetwork]` | Enable bridge assurance on a VLAN aware trunk. | Boolean | `nil`
 `[:mstpctl_portadminedge]` | Enables admin edge port. | Boolean | `nil`
 `[:mstpctl_bpduguard]` | Enable BPDU guard on a VLAN aware trunk. | Boolean | `nil`
@@ -69,6 +74,7 @@ Attribute        | Description |Type | Default
 `[:clagd_peer_ip]` | Address of the CLAG peer switch | String | `nil`
 `[:clagd_priority]` | CLAG priority for this switch | Integer | `nil`
 `[:clagd_sys_mac]` | CLAG system MAC. The MAC must be identical on both of the CLAG peers. | String | `nil`
+`[:clagd_args]` | Any additional arguments to be passed to the clagd deamon. | String | `nil`
 
 Note!  You can use all of the above attributes on `node[:cumulus][:interface_range][$NAME]` as well.  Use a a String in a format like `swp[1-24].100` or `swp[2-5]` for $NAME.
 

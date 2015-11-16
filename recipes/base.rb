@@ -11,15 +11,22 @@ def cl_interface(interface, data)
   cumulus_interface interface do
     ipv4 data.ipv4 if data['ipv4']
     ipv6 data.ipv6 if data['ipv6']
+    alias_name data.alias if data['alias']
     speed data.speed if data['speed']
     mtu data.mtu if data['mtu']
     post_up data.post_up if data['post_up']
+    pre_down data.pre_down if data['pre_down']
     addr_method data.addr_method if data['addr_method']
     # Options for enabling clagd ports
+    virtual_mac data.virtual_mac if data['virtual_mac']
+    virtual_ip data.virtual_ip if data['virtual_ip']
+    vids data.vids if data['vids']
+    pvid data.pvid if data['pvid']
     clagd_enable data.clagd_enable if data['clagd_enable']
     clagd_peer_ip data.clagd_peer_ip if data['clagd_peer_ip']
     clagd_priority data.clagd_priority if data['clagd_priority']
     clagd_sys_mac data.clagd_sys_mac if data['clagd_sys_mac']
+    clagd_args data.clagd_args if data['clagd_args']
     mstpctl_portnetwork data.mstpctl_portnetwork unless data['mstpctl_portnetwork'].nil?
     mstpctl_portadminedge data.mstpctl_portadminedge unless data['mstpctl_portadminedge'].nil?
     mstpctl_bpduguard data.mstpctl_bpduguard unless data['mstpctl_bpduguard'].nil?

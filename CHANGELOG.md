@@ -1,5 +1,14 @@
 ## 0.1.6 (TBD)
 
+Features:
+  - add the following support to interface and interface-range:
+    - pre-down
+    - virutal_mac
+    - virtual_ip
+    - vids
+    - pvid
+    - clagd_args
+
 Code Cleanup:
   - style fixes (@floored1585)
 
