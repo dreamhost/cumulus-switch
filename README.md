@@ -47,7 +47,7 @@ Attributes
 NOTE! Where you see "String or Array" for type, a String may be used _only_ for single values.  Use 
 an Array of Strings for multiple values.
 
-NOTE! Tests for virtual_mac and virtual_ip are currently failing due to a bug in the [cumulus](https://github.com/CumulusNetworks/cumulus-linux-chef-modules) cookbook.
+NOTE! Tests for virtual_mac and virtual_ip are currently failing due to a bug in the [cumulus](https://github.com/CumulusNetworks/cumulus-linux-chef-modules) cookbook.  To use these attributes, place both in the virtual_ip attribute (`node.set[:cumulus][:virtual_ip] = 'AA:BB:CC:DD:EE:FF 10.0.0.1'`)
 
 cumulus-switch::base
 ---
