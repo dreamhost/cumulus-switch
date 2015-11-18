@@ -7,4 +7,4 @@ Metrics/MethodLength:
 Metrics/PerceivedComplexity:
   Enabled: false
 Metrics/CyclomaticComplexity:
-  Max: 15
+  Enabled: false
