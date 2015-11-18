@@ -17,7 +17,6 @@ def cl_interface(interface, data)
     post_up data.post_up if data['post_up']
     pre_down data.pre_down if data['pre_down']
     addr_method data.addr_method if data['addr_method']
-    # Options for enabling clagd ports
     virtual_mac data.virtual_mac if data['virtual_mac']
     virtual_ip data.virtual_ip if data['virtual_ip']
     vids data.vids if data['vids']
@@ -56,9 +55,25 @@ node.cumulus.bond.each do |bond, data|
     ipv4 data.ipv4 if data['ipv4']
     ipv6 data.ipv6 if data['ipv6']
     slaves data.slaves if data['slaves']
+    addr_method data.addr_method if data['addr_method']
+    alias_name data.alias if data['alias']
+    mtu data.mtu if data['mtu']
+    miimon data.miimon if data['miimon']
+    min_links data.min_links if data['min_links']
+    mode data.mode if data['mode']
+    xmit_hash_policy data.xmit_hash_policy if data['xmit_hash_policy']
     clag_id data.clag_id if data['clag_id']
+    lacp_rate data.lacp_rate if data['lacp_rate']
     lacp_bypass_allow data.lacp_bypass_allow if data['lacp_bypass_allow']
+    lacp_bypass_period data.lacp_bypass_period if data['lacp_bypass_period']
+    lacp_bypass_priority data.lacp_bypass_priority if data['lacp_bypass_priority']
+    lacp_bypass_all_active data.lacp_bypass_all_active if data['lacp_bypass_all_active']
+    virtual_mac data.virtual_mac if data['virtual_mac']
     virtual_ip data.virtual_ip if data['virtual_ip']
+    vids data.vids if data['vids']
+    pvid data.pvid if data['pvid']
+    post_up data.post_up if data['post_up']
+    pre_down data.pre_down if data['pre_down']
     mstpctl_portnetwork data.mstpctl_portnetwork unless data['mstpctl_portnetwork'].nil?
     mstpctl_portadminedge data.mstpctl_portadminedge unless data['mstpctl_portadminedge'].nil?
     mstpctl_bpduguard data.mstpctl_bpduguard unless data['mstpctl_bpduguard'].nil?
@@ -72,9 +87,18 @@ node.cumulus.bridge.each do |bridge, data|
     ports data.ports if data['ports']
     ipv4 data.ipv4 if data['ipv4']
     ipv6 data.ipv6 if data['ipv6']
+    mtu data.mtu if data['mtu']
+    addr_method data.addr_method if data['addr_method']
+    alias_name data.alias if data['alias']
+    mstpctl_treeprio data.mstpctl_treeprio if data['mstpctl_treeprio']
+    post_up data.post_up if data['post_up']
+    pre_down data.pre_down if data['pre_down']
     virtual_ip data.virtual_ip if data['virtual_ip']
     virtual_mac data.virtual_mac if data['virtual_mac']
     stp data.stp unless data['stp'].nil?
+    vids data.vids if data['vids']
+    pvid data.pvid if data['pvid']
+    vlan_aware data.vlan_aware if data['vlan_aware']
     notifies :run, 'execute[reload_networking]', :delayed
   end
 end
