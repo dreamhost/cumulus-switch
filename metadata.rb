@@ -4,6 +4,6 @@ maintainer_email 'ian.clark@dreamhost.com'
 license          'All rights reserved'
 description      'Configures interfaces from attributes via the cumulus cookbook providers'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.1.5'
+version          '0.1.6'
 
 depends 'cumulus'

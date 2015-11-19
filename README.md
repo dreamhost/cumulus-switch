@@ -1,7 +1,7 @@
 Description
 ===========
 
-This cookbook provides an interface via attributes to the [official Cumulus cookbook](https://github.com/CumulusNetworks/cumulus-linux-chef-modules)'s providers.
+This cookbook provides an interface via attributes to the [official Cumulus cookbook](https://github.com/CumulusNetworks/cumulus-linux-chef-modules)'s providers, and then some.
 
 What can this configure?
 * Interfaces
@@ -47,7 +47,12 @@ Attributes
 NOTE! Where you see "String or Array" for type, a String may be used _only_ for single values.  Use 
 an Array of Strings for multiple values.
 
-### Interfaces & interface ranges
+NOTE! Tests for virtual_mac and virtual_ip are currently failing due to a bug in the [cumulus](https://github.com/CumulusNetworks/cumulus-linux-chef-modules) cookbook.  To use these attributes, place both in the virtual_ip attribute (`...[:virtual_ip] = 'AA:BB:CC:DD:EE:FF 10.0.0.1'`)
+
+cumulus-switch::base
+---
+
+#### Interfaces & interface ranges
 
 Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
@@ -55,10 +60,16 @@ Attribute        | Description |Type | Default
 `node[:cumulus][:interface][$NAME]` | Configuration values for interface $NAME.  This will be the base for the following attributes. | Hash | `nil`
 `[:ipv4]` | IPv4 address(s) to assign to the interface. | String or Array | `nil`
 `[:ipv6]` | IPv6 address(s) to assign to the interface. | String or Array | `nil`
+`[:alias]` | Interface alias (description). | String | `nil`
 `[:speed]` | Speed to configure for the interface. | String | `nil`
 `[:mtu]` | MTU to configure for the interface. | Integer | `nil`
 `[:post_up]` | Post-up command(s) to run | String or Array | `nil`
+`[:pre_down]` | Pre-down command(s) to run | String or Array | `nil`
 `[:addr_method]` | Address assignment method, `dhcp` or `loopback`. | String | `nil`
+`[:virtual_mac]` | VRR virtual MAC. | String | `nil`
+`[:virtual_ip]` | VRR virtual IP. | String | `nil`
+`[:vids]` | Array of VLANs to be configured for a VLAN aware trunk interface. | Array | `nil`
+`[:pvid]` | Native VLAN for a VLAN aware trunk interface. | Integer | `nil`
 `[:mstpctl_portnetwork]` | Enable bridge assurance on a VLAN aware trunk. | Boolean | `nil`
 `[:mstpctl_portadminedge]` | Enables admin edge port. | Boolean | `nil`
 `[:mstpctl_bpduguard]` | Enable BPDU guard on a VLAN aware trunk. | Boolean | `nil`
@@ -66,10 +77,11 @@ Attribute        | Description |Type | Default
 `[:clagd_peer_ip]` | Address of the CLAG peer switch | String | `nil`
 `[:clagd_priority]` | CLAG priority for this switch | Integer | `nil`
 `[:clagd_sys_mac]` | CLAG system MAC. The MAC must be identical on both of the CLAG peers. | String | `nil`
+`[:clagd_args]` | Any additional arguments to be passed to the clagd deamon. | String | `nil`
 
 Note!  You can use all of the above attributes on `node[:cumulus][:interface_range][$NAME]` as well.  Use a a String in a format like `swp[1-24].100` or `swp[2-5]` for $NAME.
 
-### Bridges
+#### Bridges
 
 Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
@@ -78,34 +90,63 @@ Attribute        | Description |Type | Default
 `[:ports]` | Interfaces to place in the bridge (*required*). | Array | `required`
 `[:ipv4]` | IPv4 address(s) to assign to the bridge. | Array | `nil`
 `[:ipv6]` | IPv6 address(s) to assign to the bridge. | Array | `nil`
+`[:alias]` | Interface alias (description). | String | `nil`
+`[:addr_method]` | Address assignment method, `dhcp` or `loopback`. | String | `nil`
+`[:mtu]` | MTU to configure for the interface. | Integer | `nil`
+`[:post_up]` | Post-up command(s) to run | String or Array | `nil`
+`[:pre_down]` | Pre-down command(s) to run | String or Array | `nil`
+`[:vids]` | Array of VLANs to be configured for a VLAN aware trunk interface. | Array | `nil`
+`[:pvid]` | Native VLAN for a VLAN aware trunk interface. | Integer | `nil`
+`[:vlan_aware]` | Use the VLAN aware bridge driver. | Boolean | `false`
 `[:virtual_ip]` | VRR virtual IP ([documentation](http://docs.cumulusnetworks.com/display/DOCS/Virtual+Router+Redundancy+-+VRR)). | String | `nil`
 `[:virtual_mac]` | VRR virtual MAC address ([documentation](http://docs.cumulusnetworks.com/display/DOCS/Virtual+Router+Redundancy+-+VRR)). | String | `nil`
 `[:stp]` | Enable STP on the bridge. | Boolean | `true`
+`[:mstp_treeprio]` | Bridge root priority. Must be multiple of 4096. | Integer | `nil`
 
-### Bonds
+#### Bonds
 
 Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
 `node[:cumulus][:bond]` | A hash of bonds. Keys are the bond name, values are a hash with configuration for the bond. | Hash | `{}`
 `node[:cumulus][:bond][$NAME]` | Configuration values for bond $NAME.  This will be the base for the following attributes. | Hash | `nil`
+`[:slaves]` | Bond members (*required*). | Array | `required`
 `[:ipv4]` | IPv4 address(s) to assign to the bond. | String or Array | `nil`
 `[:ipv6]` | IPv6 address(s) to assign to the bond. | String or Array | `nil`
-`[:slaves]` | Bond members (*required*). | Array | `required`
+`[:alias]` | Interface alias (description). | String | `nil`
+`[:mtu]` | MTU to configure for the interface. | Integer | `nil`
+`[:post_up]` | Post-up command(s) to run | String or Array | `nil`
+`[:pre_down]` | Pre-down command(s) to run | String or Array | `nil`
+`[:addr_method]` | Address assignment method, `dhcp` or `loopback`. | String | `nil`
+`[:virtual_mac]` | VRR virtual MAC (*needs to be fixed in cumulus cookbook*). | String | `nil`
+`[:virtual_ip]` | VRR virtual IP (*needs to be fixed in cumulus cookbook*). | String | `nil`
+`[:vids]` | Array of VLANs to be configured for a VLAN aware trunk interface. | Array | `nil`
+`[:pvid]` | Native VLAN for a VLAN aware trunk interface. | Integer | `nil`
+`[:miimon]` | MII link monitoring interval. | Integer | `100`
+`[:min_links]` | Minimum number of slave links for the bond to be considered up. | Integer | `1`
+`[:mode]` | Bonding mode. | String | `802.3ad`
+`[:xmit_hash_policy]` | TX hashing policy. | String | `layer3+4`
+`[:lacp_rate]` | LACP bond rate. | Integer | `1`
+`[:lacp_bypass_allow]` | Enable LACP bypass. Set to `1` to enable (*needs to be boolean*). | Integer | `nil`
+`[:lacp_bypass_period]` | LACP bypass period. | Integer | `nil`
+`[:lacp_bypass_priority]` | String-in-array (*needs to be string*) of interfaces and priorities for LACP bypass priority mode. | Array | `nil`
+`[:lacp_bypass_all_active]` | Enable all-active mode for LACP bypass. Set to `1` to enable (*needs to be boolean*). | Integer | `nil`
 `[:mstpctl_portnetwork]` | Enable bridge assurance on a VLAN aware trunk. | Boolean | `nil`
 `[:mstpctl_portadminedge]` | Enables admin edge port. | Boolean | `nil`
 `[:mstpctl_bpduguard]` | Enable BPDU guard on a VLAN aware trunk. | Boolean | `nil`
 `[:clag_id]` | Identifier for a CLAG bond. The ID must be the same on both CLAG peers. | Integer | `nil`
 
-### Ports
+#### Ports
 
 Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
+`node[:cumulus][:restart_switchd]` | Restart switchd when port changes are made. | Boolean | `false`
 `node[:cumulus][:ports]['10g']` | Array of ports to be configured for 10GbE. | Array | `[]`
 `node[:cumulus][:ports]['40g']` | Array of ports to be configured for 40GbE. | Array | `[]`
 `node[:cumulus][:ports]['40g_div_4']` | Array of ports to be configured for 40GbE split to 4 x 10GbE. | Array | `[]`
 `node[:cumulus][:ports]['4_by_10g']` | Array of ports to be configured for 10GbE to be aggregated into 1 x 40GbE. | Array | `[]`
 
-### Management VRF
+cumulus-switch::mgmt_vrf
+---
 
 Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
@@ -115,7 +156,7 @@ Attribute        | Description |Type | Default
 Usage
 =====
 
-Simply set the desired attributes (see Attributes section above) then call the proper recipe (cumulus-switch::base).
+Simply set the desired attributes (see Attributes section above) then call the applicable recipe.
 
 ### Example
 
@@ -128,10 +169,10 @@ Any form of contribution is welcome!  Feature requests, bug reports, pull reques
 If you add features, make sure there are tests for them, and if you change any code, make sure
 the existing tests all pass _before_ creating a pull request.
 
-Tests are run on a [Cumulus VX](https://cumulusnetworks.com/cumulus-vx) VM using serverspec.
+Tests are run on [Cumulus VX](https://cumulusnetworks.com/cumulus-vx) VMs using serverspec.
 
 Testing requirements:
-* Vagrant
+* Vagrant + cumulus-vagrant plugin (`vagrant plugin install vagrant-cumulus`)
 * VirtualBox
 
 To run the tests (after installing prerequisites):

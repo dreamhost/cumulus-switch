@@ -1,7 +1,7 @@
 require 'rubocop/rake_task'
 
 RuboCop::RakeTask.new(:rubocop) do |task|
-  task.patterns = ['recipes','resources','test/integration/default/serverspec']
+  task.patterns = ['recipes','attributes','test/integration/default/serverspec']
   task.options = ['--display-cop-names']
 end
 

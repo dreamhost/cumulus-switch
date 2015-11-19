@@ -1,3 +1,45 @@
+## 0.1.6 (TBD)
+
+Features:
+  - add the following support in ::base to interface and interface-range:
+    - alias
+    - pre-down
+    - virutal_mac
+    - virtual_ip
+    - vids
+    - pvid
+    - clagd_args
+  - add the following support in ::base to bond:
+    - addr_method
+    - alias
+    - mtu
+    - miimon
+    - min_links
+    - mode
+    - xmit_hash_policy
+    - lacp_rate
+    - lacp_bypass_period
+    - lacp_bypass_priority
+    - lacp_bypass_all_active
+    - virtual_mac
+    - vids
+    - pvid
+    - post_up
+    - pre_down
+  - add the following support in ::base to bridge:
+    - mtu
+    - alias
+    - mstpctl_treeprio
+    - post_up
+    - pre_down
+    - vids
+    - pvid
+    - vlan_aware
+    - addr_method
+
+Code Cleanup:
+  - style fixes
+
 ## 0.1.5 (2015-11-10)
 
 Features:
