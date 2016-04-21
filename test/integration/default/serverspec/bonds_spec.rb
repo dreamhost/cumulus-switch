@@ -10,6 +10,10 @@ describe file("#{intf_dir}/bond0") do
   it { should be_file }
   its(:content) { should match(/iface bond0/) }
   its(:content) { should match(/bond-slaves glob swp1-2 swp4/) }
+  its(:content) { should match(/bond-miimon 100/) }
+  its(:content) { should match(/bond-lacp-rate 1/) }
+  its(:content) { should match(/bond-min-links 1/) }
+  its(:content) { should match(/bond-xmit-hash-policy layer3\+4/) }
 end
 
 describe file("#{intf_dir}/bond1") do
