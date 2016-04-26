@@ -77,3 +77,14 @@ describe file("#{intf_dir}/swp4") do
   its(:content) { should match(/clagd-sys-mac aa:bb:cc:dd:ee:ff/) }
   its(:content) { should match(/clagd-args "--backupPort 5400"/) }
 end
+
+# Interface ranges
+describe file("#{intf_dir}/swp5") do
+  its(:content) { should match(/mtu 9000/) }
+end
+describe file("#{intf_dir}/swp6") do
+  its(:content) { should match(/mtu 9000/) }
+end
+describe file("#{intf_dir}/swp7") do
+  its(:content) { should match(/mtu 9000/) }
+end
