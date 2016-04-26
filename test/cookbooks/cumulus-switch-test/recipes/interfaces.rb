@@ -39,3 +39,6 @@ node.set[:cumulus][:interface]['swp4']['clagd_priority'] = 1
 node.set[:cumulus][:interface]['swp4']['clagd_peer_ip'] = '10.1.2.3'
 node.set[:cumulus][:interface]['swp4']['clagd_sys_mac'] = 'aa:bb:cc:dd:ee:ff'
 node.set[:cumulus][:interface]['swp4']['clagd_args'] = '--backupPort 5400'
+
+# Interface range
+node.set['cumulus']['interface_range']['swp[5-7]']['mtu'] = 9000

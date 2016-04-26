@@ -27,7 +27,7 @@ node.cumulus.interface_range.each do |range_str, data|
   range = range_str.match(/\[(\d+)-(\d+)\]/)
   (range[1]..range[2]).each do |id|
     ifname = range_str.gsub(/\[\d+-\d+\]/, id)
-    cl_interface(ifname, data, range[0])
+    cl_interface(ifname, data, range_str)
   end
 end
 
