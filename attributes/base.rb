@@ -6,3 +6,4 @@ node.default['cumulus']['ports'] = {}
 
 # Automatically restart switchd on port config changes if true
 node.default['cumulus']['restart_switchd'] = false
+node.default['cumulus']['reload_networking'] = true

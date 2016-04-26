@@ -2,7 +2,7 @@
 # Cookbook Name:: cumulus-switch-test
 # Recipe:: bonds
 #
-node.set[:cumulus][:bond]['bond0']['slaves'] = ['swp1-2', 'swp4']
+node.set['cumulus']['bond']['bond0']['slaves'] = ['swp1-2', 'swp4']
 
 node.set[:cumulus][:bond]['bond1']['slaves'] = ['swp5-6']
 node.set[:cumulus][:bond]['bond1']['ipv4'] = ['10.0.0.1/24', '192.168.1.0/16']
@@ -37,5 +37,6 @@ node.set[:cumulus][:bond]['bond1']['pre_down'] = [
 ]
 
 node.set[:cumulus][:bond]['bond2']['slaves'] = ['swp7', 'swp8']
+node.set[:cumulus][:bond]['bond2']['virtual_ip'] = '11:22:33:44:55:FF 192.168.20.1'
 node.set[:cumulus][:bond]['bond2']['lacp_bypass_allow'] = 1
 node.set[:cumulus][:bond]['bond2']['lacp_bypass_priority'] = ['swp7=10 swp8=5']

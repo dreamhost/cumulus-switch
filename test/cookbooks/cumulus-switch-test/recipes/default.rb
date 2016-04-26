@@ -10,6 +10,8 @@ file '/usr/cumulus/bin/cl-license' do
   mode '0755'
 end
 
+node.set['cumulus']['reload_networking'] = false
+
 include_recipe "cumulus-switch-test::ports"
 include_recipe "cumulus-switch-test::license"
 include_recipe "cumulus-switch-test::interface_policy"

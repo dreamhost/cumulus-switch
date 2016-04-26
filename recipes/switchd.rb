@@ -1,8 +1,7 @@
 #
 # Cookbook Name:: cumulus-switch
-# Recipe:: default
+# Recipe:: switchd
 #
-# Copyright 2015, DreamHost
 # Copyright 2015, Cumulus Networks
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,21 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-include_recipe 'cumulus-switch::switchd'
-include_recipe 'cumulus-switch::interfaces'
-
-# Notifying the networking service to reload doesn't work
-# for some reason ('up to date'), so we're getting the
-# desired results by notifying this instead
-execute 'reload_networking' do
-  command 'service networking reload'
-  action :nothing
-end
-
-# service networking reload does not clear any old loopback
-# addresses.  We must ifdown & ifup the lo interface.
-execute 'reload_loopback' do
-  command 'ifdown lo && ifup lo'
+service 'switchd' do
+  supports :status => true, :restart => true
   action :nothing
 end
