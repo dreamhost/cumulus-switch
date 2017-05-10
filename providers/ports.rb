@@ -26,10 +26,10 @@ action :create do
     action :create
   end
 
-  speed_10g = node.cumulus.ports['10g'] || []
-  speed_40g = node.cumulus.ports['40g'] || []
-  speed_40g_div_4 = node.cumulus.ports['40g_div_4'] || []
-  speed_4_by_10g = node.cumulus.ports['4_by_10g'] || []
+  speed_10g = node['cumulus']['ports']['10g'] || []
+  speed_40g = node['cumulus']['ports']['40g'] || []
+  speed_40g_div_4 = node['cumulus']['ports']['40g_div_4'] || []
+  speed_4_by_10g = node['cumulus']['ports']['4_by_10g'] || []
 
   port = template '/etc/cumulus/ports.conf' do
     cookbook 'cumulus-switch'
