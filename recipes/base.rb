@@ -8,11 +8,20 @@ include_recipe 'cumulus-switch'
 
 # cl_interface is used for interface ranges and individual interfaces
 def cl_interface(interface, data, range=nil)
+  #if interface == 'eth0' && data['vrf'] == 'mgmt'
+  #  service 'snmpd@mgmt'
+  #end
   cumulus_switch_interface interface do
     range range if range
 
     notifies :run, 'execute[reload_networking]', :delayed if node['cumulus']['reload_networking']
     notifies :run, 'execute[reload_loopback]', :delayed if interface =~ /^lo/
+    #if interface == 'eth0' && data['vrf'] == 'mgmt'
+    #  notifies :stop, 'service[snmpd]', :immediately
+    #  notifies :disable, 'service[snmpd]', :immediately
+    #  notifies :enable, 'service[snmpd@mgmt]', :immediately
+    #  notifies :start, 'service[snmpd@mgmt]'
+    #end
   end
 end
 

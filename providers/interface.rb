@@ -43,6 +43,8 @@ action :create do
   virtual_mac = data['virtual_mac']
   virtual_ip = data['virtual_ip']
   vids = data['vids']
+  vrf = data['vrf']
+  vrf_table = data['vrf_table']
   pvid = data['pvid']
   clagd_enable = data['clagd_enable']
   mstpctl_portnetwork = data['mstpctl_portnetwork']
@@ -69,6 +71,8 @@ action :create do
   config['mstpctl-portnetwork'] = Cumulus::Utils.bool_to_yn(mstpctl_portnetwork) unless mstpctl_portnetwork.nil?
   config['mstpctl-portadminedge'] = Cumulus::Utils.bool_to_yn(mstpctl_portadminedge) unless mstpctl_portadminedge.nil?
   config['mstpctl-bpduguard'] = Cumulus::Utils.bool_to_yn(mstpctl_bpduguard) unless mstpctl_bpduguard.nil?
+  config['vrf'] = vrf unless vrf.nil?
+  config['vrf-table'] = vrf_table unless vrf_table.nil?
 
   # Insert CLAG parameters if CLAG is enabled
   if clagd_enable

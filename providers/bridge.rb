@@ -36,6 +36,7 @@ action :create do
   pre_down = data['pre_down']
   virtual_ip = data['virtual_ip']
   virtual_mac = data['virtual_mac']
+  vrf = data['vrf']
 
   # Default to 'true' if no value provided
   stp = data['stp']
@@ -60,6 +61,7 @@ action :create do
   config['address-virtual'] = [virtual_mac, virtual_ip].compact.join(' ') unless virtual_ip.nil? && virtual_mac.nil?
   config['post-up'] = post_up unless post_up.nil?
   config['pre-down'] = pre_down unless post_up.nil?
+  config['vrf'] = vrf unless vrf.nil?
 
   if data['vlan_aware']
     config['bridge-vlan-aware'] = 'yes'

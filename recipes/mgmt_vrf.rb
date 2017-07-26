@@ -24,22 +24,32 @@ execute 'cl-mgmtvrf-disable' do
   action :nothing
 end
 
-if enabled
-  Chef::Log.info('Enabling Management VRF')
-  # Update repo and install cl-mgmtvrf
-  execute 'apt-get update'
-  package 'cl-mgmtvrf' do
-    action :install
-    notifies :run, 'execute[cl-mgmtvrf-enable]', :immediately
-    notifies :restart, 'service[quagga]', :delayed if restart_quagga
-  end
-elsif enabled == false
-  Chef::Log.info('Disabling Management VRF')
-  # Update repo and install cl-mgmtvrf
-  execute 'apt-get update'
-  package 'cl-mgmtvrf' do
-    action :remove
-    notifies :run, 'execute[cl-mgmtvrf-disable]', :immediately
-    notifies :restart, 'service[quagga]', :delayed if restart_quagga
+release = node['lsb']['release']
+
+case release
+when /^3\./
+  node.default['cumulus']['interface']['eth0']['vrf'] = 'mgmt'
+  node.default['cumulus']['interface']['mgmt']['ipv4'] = [ '127.0.0.1/8' ]
+  node.default['cumulus']['interface']['mgmt']['vrf_table'] = 'auto'
+  include_recipe 'cumulus-switch::base'
+else
+  if enabled
+    Chef::Log.info('Enabling Management VRF')
+    # Update repo and install cl-mgmtvrf
+    execute 'apt-get update'
+    package 'cl-mgmtvrf' do
+      action :install
+      notifies :run, 'execute[cl-mgmtvrf-enable]', :immediately
+      notifies :restart, 'service[quagga]', :delayed if restart_quagga
+    end
+  elsif enabled == false
+    Chef::Log.info('Disabling Management VRF')
+    # Update repo and install cl-mgmtvrf
+    execute 'apt-get update'
+    package 'cl-mgmtvrf' do
+      action :remove
+      notifies :run, 'execute[cl-mgmtvrf-disable]', :immediately
+      notifies :restart, 'service[quagga]', :delayed if restart_quagga
+    end
   end
 end
