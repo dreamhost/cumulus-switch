@@ -161,15 +161,13 @@ module Cumulus
       #   Interface to retrieve
       #
       def if_to_hash(name)
-        begin
-          json = ''
-          IO.popen("ifquery #{name} -o json") do |ifquery|
-            json = ifquery.read
-          end
-          return JSON.load(json)
-        rescue StandardError => ex
-          Chef::Log.fatal("failed to run ifquery for interface #{name}:  #{ex}")
+        json = ''
+        IO.popen("ifquery #{name} -o json") do |ifquery|
+          json = ifquery.read
         end
+        return JSON.load(json)
+      rescue StandardError => ex
+        Chef::Log.fatal("failed to run ifquery for interface #{name}:  #{ex}")
       end
 
       ##
@@ -198,20 +196,18 @@ module Cumulus
       # an array.
       #
       def hash_to_if(name, hash)
-        begin
-          intf = ''
-          IO.popen("ifquery -i - -t json #{name}", 'r+') do |ifquery|
-            ifquery.write(hash.to_json)
-            ifquery.close_write
+        intf = ''
+        IO.popen("ifquery -i - -t json #{name}", 'r+') do |ifquery|
+          ifquery.write(hash.to_json)
+          ifquery.close_write
 
-            intf = ifquery.read
-            ifquery.close
-          end
-          Chef::Log.debug("ifquery produced the following:\n#{intf}")
-          return intf
-        rescue StandardError => ex
-          Chef::Log.fatal("failed to run ifquery -i for interface #{name}:  #{ex}\nInput was #{hash.to_json}")
+          intf = ifquery.read
+          ifquery.close
         end
+        Chef::Log.debug("ifquery produced the following:\n#{intf}")
+        return intf
+      rescue StandardError => ex
+        Chef::Log.fatal("failed to run ifquery -i for interface #{name}:  #{ex}\nInput was #{hash.to_json}")
       end
 
       ##

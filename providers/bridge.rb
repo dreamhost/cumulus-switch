@@ -55,13 +55,13 @@ action :create do
   config['address'] = address unless address.nil?
   # If single address, don't use an array (for ifquery -o json equality test)
   config['address'] = address[0] if address.class == Array && address.count == 1
-  config['mtu'] = mtu unless mtu.nil?
-  config['mstpctl-treeprio'] = mstpctl_treeprio unless mstpctl_treeprio.nil?
-  config['alias'] = alias_name unless alias_name.nil?
+  config['mtu'] = mtu.to_s unless mtu.nil?
+  config['mstpctl-treeprio'] = mstpctl_treeprio.to_s unless mstpctl_treeprio.nil?
+  config['alias'] = alias_name.to_s unless alias_name.nil?
   config['address-virtual'] = [virtual_mac, virtual_ip].compact.join(' ') unless virtual_ip.nil? && virtual_mac.nil?
   config['post-up'] = post_up unless post_up.nil?
   config['pre-down'] = pre_down unless post_up.nil?
-  config['vrf'] = vrf unless vrf.nil?
+  config['vrf'] = vrf.to_s unless vrf.nil?
 
   if data['vlan_aware']
     config['bridge-vlan-aware'] = 'yes'
@@ -71,18 +71,18 @@ action :create do
     pvid = data['pvid']
 
     config['bridge-vids'] = vids unless vids.nil?
-    config['bridge-pvid'] = pvid unless pvid.nil?
+    config['bridge-pvid'] = pvid.to_s unless pvid.nil?
   end
 
   # Family is always 'inet' if a method is set
   addr_family = addr_method.nil? ? nil : 'inet'
 
   new = [{ 'auto' => true,
-           'name' => name,
+           'name' => name.to_s,
            'config' => config }]
 
-  new[0]['addr_method'] = addr_method if addr_method
-  new[0]['addr_family'] = addr_family if addr_family
+  new[0]['addr_method'] = addr_method.to_s if addr_method
+  new[0]['addr_family'] = addr_family.to_s if addr_family
 
   current = Cumulus::Utils.if_to_hash(name)
 

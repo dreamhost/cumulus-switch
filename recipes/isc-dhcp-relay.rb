@@ -26,7 +26,7 @@ if node['dhcp_relay']
     )
     notifies :restart, "service[#{relay_service}]", :delayed
   end
-  service relay_service do 
-    action [ :enable, :start ]
+  service relay_service do
+    action [:enable, :start]
   end
 end

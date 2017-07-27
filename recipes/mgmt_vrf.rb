@@ -29,7 +29,7 @@ release = node['lsb']['release']
 case release
 when /^3\./
   node.default['cumulus']['interface']['eth0']['vrf'] = 'mgmt'
-  node.default['cumulus']['interface']['mgmt']['ipv4'] = [ '127.0.0.1/8' ]
+  node.default['cumulus']['interface']['mgmt']['ipv4'] = ['127.1.0.1/16']
   node.default['cumulus']['interface']['mgmt']['vrf_table'] = 'auto'
   include_recipe 'cumulus-switch::base'
 else

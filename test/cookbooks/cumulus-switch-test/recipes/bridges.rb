@@ -32,10 +32,10 @@ node.set['cumulus']['bridge']['bridge3']['mtu'] = 9000
 node.set['cumulus']['bridge']['bridge3']['stp'] = false
 node.set['cumulus']['bridge']['bridge3']['mstpctl_treeprio'] = 4096
 node.set['cumulus']['bridge']['bridge3']['post_up'] = [
-  "ip route add 10.0.0.0/8 via 192.168.200.2",
-  "ip route add 172.16.0.0/12 via 192.168.200.2"
+  'ip route add 10.0.0.0/8 via 192.168.200.2',
+  'ip route add 172.16.0.0/12 via 192.168.200.2'
 ]
 node.set['cumulus']['bridge']['bridge3']['pre_down'] = [
-  "ip route del 10.0.0.0/8 via 192.168.200.2",
-  "ip route del 172.16.0.0/12 via 192.168.200.2"
+  'ip route del 10.0.0.0/8 via 192.168.200.2',
+  'ip route del 172.16.0.0/12 via 192.168.200.2'
 ]

@@ -18,7 +18,7 @@
 # limitations under the License.
 #
 service 'networking' do
-  supports :status => true, :restart => true, :reload => true
+  supports status: true, restart: true, reload: true
   action :nothing
 end
 
@@ -36,7 +36,7 @@ end
   config = ::File.join(location, intf)
   execute "#{intf} config" do
     command "ifquery #{intf} > #{config}"
-    not_if { ::File.exists?(config) }
+    not_if { ::File.exist?(config) }
     notifies :reload, 'service[networking]'
   end
 end

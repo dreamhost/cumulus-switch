@@ -57,57 +57,38 @@ action :create do
   address = ipv4 + ipv6
 
   config = { 'bond-slaves' => slaves.join(' '),
-             'bond-min-links' => min_links,
-             'bond-mode' => mode,
-             'bond-miimon' => miimon,
-             'bond-lacp-rate' => lacp_rate,
-             'bond-xmit-hash-policy' => xmit_hash_policy }
+             'bond-min-links' => min_links.to_s,
+             'bond-mode' => mode.to_s,
+             'bond-miimon' => miimon.to_s,
+             'bond-lacp-rate' => lacp_rate.to_s,
+             'bond-xmit-hash-policy' => xmit_hash_policy.to_s }
 
   # Insert optional parameters
   config['address'] = address unless address.nil?
   # If single address, don't use an array (for ifquery -o json equality test)
   config['address'] = address[0] if address.class == Array && address.count == 1
-  config['alias'] = alias_name unless alias_name.nil?
-  config['mtu'] = mtu unless mtu.nil?
-  config['clag-id'] = clag_id unless clag_id.nil?
+  config['alias'] = alias_name.to_s unless alias_name.nil?
+  config['mtu'] = mtu.to_s unless mtu.nil?
+  config['clag-id'] = clag_id.to_s unless clag_id.nil?
   config['bridge-vids'] = vids unless vids.nil?
-  config['bridge-pvid'] = pvid unless pvid.nil?
+  config['bridge-pvid'] = pvid.to_s unless pvid.nil?
   config['address-virtual'] = [virtual_mac, virtual_ip].compact.join(' ') unless virtual_ip.nil? && virtual_mac.nil?
   config['post-up'] = post_up unless post_up.nil?
   config['pre-down'] = pre_down unless post_up.nil?
   config['mstpctl-portnetwork'] = Cumulus::Utils.bool_to_yn(mstpctl_portnetwork) unless mstpctl_portnetwork.nil?
   config['mstpctl-portadminedge'] = Cumulus::Utils.bool_to_yn(mstpctl_portadminedge) unless mstpctl_portadminedge.nil?
   config['mstpctl-bpduguard'] = Cumulus::Utils.bool_to_yn(mstpctl_bpduguard) unless mstpctl_bpduguard.nil?
+  config['bond-lacp-bypass-allow'] = lacp_bypass_allow.to_s unless lacp_bypass_allow.nil?
 
   # Family is always 'inet' if a method is set
   addr_family = addr_method.nil? ? nil : 'inet'
 
-  if lacp_bypass_allow
-    lacp_bypass_period = data['lacp_bypass_period']
-    lacp_bypass_priority = data['lacp_bypass_priority']
-    lacp_bypass_all_active = data['lacp_bypass_all_active']
-
-    # Validate the other options if LACP bypass is enabled
-    if lacp_bypass_allow == '1'
-      if lacp_bypass_priority.nil? && lacp_bypass_all_active.nil?
-        Chef::Application.fatal!('Either lacp_bypass_priority or lacp_bypass_all_active must be set when lacp_bypass_allow is enabled')
-      elsif !lacp_bypass_priority.nil? && !lacp_bypass_all_active.nil?
-        Chef::Application.fatal!('Only one of lacp_bypass_priority or lacp_bypass_all_active must be set when lacp_bypass_allow is enabled')
-      end
-    end
-
-    config['bond-lacp-bypass-allow'] = lacp_bypass_allow
-    config['bond-lacp-bypass-priority'] = lacp_bypass_priority unless lacp_bypass_priority.nil?
-    config['bond-lacp-bypass-all-active'] = lacp_bypass_all_active unless lacp_bypass_all_active.nil?
-    config['bond-lacp-bypass-period'] = lacp_bypass_period unless lacp_bypass_period.nil?
-  end
-
   new = [{ 'auto' => true,
-           'name' => name,
+           'name' => name.to_s,
            'config' => config }]
 
-  new[0]['addr_method'] = addr_method if addr_method
-  new[0]['addr_family'] = addr_family if addr_family
+  new[0]['addr_method'] = addr_method.to_s if addr_method
+  new[0]['addr_family'] = addr_family.to_s if addr_family
 
   current = Cumulus::Utils.if_to_hash(name)
 

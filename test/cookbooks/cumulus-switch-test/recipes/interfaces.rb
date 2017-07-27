@@ -21,17 +21,17 @@ node.set['cumulus']['interface']['swp2']['mstpctl_portnetwork'] = true
 node.set['cumulus']['interface']['swp2']['mstpctl_portadminedge'] = true
 node.set['cumulus']['interface']['swp2']['mstpctl_bpduguard'] = true
 node.set['cumulus']['interface']['swp2']['post_up'] = [
-  "ip route add 10.0.0.0/8 via 192.168.200.2",
-  "ip route add 172.16.0.0/12 via 192.168.200.2"
+  'ip route add 10.0.0.0/8 via 192.168.200.2',
+  'ip route add 172.16.0.0/12 via 192.168.200.2'
 ]
 node.set['cumulus']['interface']['swp2']['pre_down'] = [
-  "ip route del 10.0.0.0/8 via 192.168.200.2",
-  "ip route del 172.16.0.0/12 via 192.168.200.2"
+  'ip route del 10.0.0.0/8 via 192.168.200.2',
+  'ip route del 172.16.0.0/12 via 192.168.200.2'
 ]
 
 # Test post_up and pre_down as String instead of Array
-node.set['cumulus']['interface']['swp3']['post_up'] = "ip route add 192.168.0.0/16 via 192.168.200.2"
-node.set['cumulus']['interface']['swp3']['pre_down'] = "ip route del 192.168.0.0/16 via 192.168.200.2"
+node.set['cumulus']['interface']['swp3']['post_up'] = 'ip route add 192.168.0.0/16 via 192.168.200.2'
+node.set['cumulus']['interface']['swp3']['pre_down'] = 'ip route del 192.168.0.0/16 via 192.168.200.2'
 
 # CLAGD
 node.set['cumulus']['interface']['swp4']['clagd_enable'] = true
