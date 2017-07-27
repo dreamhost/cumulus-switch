@@ -127,9 +127,6 @@ Attribute        | Description |Type | Default
 `['xmit_hash_policy']` | TX hashing policy. | String | `layer3+4`
 `['lacp_rate']` | LACP bond rate. | Integer | `1`
 `['lacp_bypass_allow']` | Enable LACP bypass. Set to `1` to enable (*needs to be boolean*). | Integer | `nil`
-`['lacp_bypass_period']` | LACP bypass period. | Integer | `nil`
-`['lacp_bypass_priority']` | String-in-array (*needs to be string*) of interfaces and priorities for LACP bypass priority mode. | Array | `nil`
-`['lacp_bypass_all_active']` | Enable all-active mode for LACP bypass. Set to `1` to enable (*needs to be boolean*). | Integer | `nil`
 `['mstpctl_portnetwork']` | Enable bridge assurance on a VLAN aware trunk. | Boolean | `nil`
 `['mstpctl_portadminedge']` | Enables admin edge port. | Boolean | `nil`
 `['mstpctl_bpduguard']` | Enable BPDU guard on a VLAN aware trunk. | Boolean | `nil`
@@ -148,10 +145,12 @@ Attribute        | Description |Type | Default
 cumulus-switch::mgmt_vrf
 ---
 
+NOTE! With Cumulus Linux 3.x, this recipe can simply be included; no need to set any attributes.
+
 Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
-`node['cumulus']['mgmt_vrf']['enabled']` | Enables or disables management VRF ([documentation](http://docs.cumulusnetworks.com/display/DOCS/Management+VRF)).  Note: this is `nil` by default, which causes no actions to be taken.  `true` will install and configure the management vrf. `false` will remove the package and disable the management vrf. | Boolean | `nil`
-`node['cumulus']['mgmt_vrf']['restart_quagga']` | Restart Quagga if management VRF status changes. | Boolean | `nil`
+`node['cumulus']['mgmt_vrf']['enabled']` | In Cumulus Linux 2.x, this enables or disables management VRF ([documentation](http://docs.cumulusnetworks.com/display/DOCS/Management+VRF)).  Note: this is `nil` by default, which causes no actions to be taken.  `true` will install and configure the management vrf. `false` will remove the package and disable the management vrf. | Boolean | `nil`
+`node['cumulus']['mgmt_vrf']['restart_quagga']` | In Cumulus Linux 2.x, this restarts Quagga if management VRF status changes. | Boolean | `nil`
 
 Usage
 =====
