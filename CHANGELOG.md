@@ -1,10 +1,13 @@
-## 2.1.0 (TBD):
+## 2.1.1 (2017-08-04):
 
 Features:
   - Cumulus Linux 3.x support (@floored1585)
 
 Code Cleanup:
   - Style fixes (@floored1585)
+
+Fixes:
+  - Fix ifquery hash mapping (@nertwork)
 
 ## 0.1.6 (???):
 
