@@ -25,8 +25,6 @@ describe file("#{intf_dir}/bond1") do
   its(:content) { should match(/bond-miimon 99/) }
   its(:content) { should match(/bond-lacp-rate 9/) }
   its(:content) { should match(/bond-lacp-bypass-allow 1/) }
-  its(:content) { should match(/bond-lacp-bypass-period 30/) }
-  its(:content) { should match(/bond-lacp-bypass-all-active 1/) }
   its(:content) { should match(/bond-min-links 2/) }
   its(:content) { should match(/bridge-vids 1-4094/) }
   its(:content) { should match(/bridge-pvid 1/) }
@@ -48,6 +46,6 @@ end
 describe file("#{intf_dir}/bond2") do
   it { should be_file }
   its(:content) { should match(/iface bond2/) }
-  its(:content) { should match(/swp7=10 swp8=5/) }
+  its(:content) { should match(/swp7 swp8/) }
   its(:content) { should match(/address-virtual 11:22:33:44:55:FF 192.168.20.1/) }
 end

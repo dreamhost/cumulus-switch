@@ -49,9 +49,7 @@ end
 # Parse the provided source URI and stop executation if the URL is invalid
 #
 def validate_url!(uri_str)
-  begin
-    URI.parse(uri_str)
-  rescue URI::InvalidURIError
-    Chef::Application.fatal!("The cumulus_license source URL #{uri_str} is invalid")
-  end
+  URI.parse(uri_str)
+rescue URI::InvalidURIError
+  Chef::Application.fatal!("The cumulus_license source URL #{uri_str} is invalid")
 end

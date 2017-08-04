@@ -17,6 +17,6 @@
 # limitations under the License.
 #
 service 'switchd' do
-  supports :status => true, :restart => true
+  supports status: true, restart: true
   action :nothing
 end

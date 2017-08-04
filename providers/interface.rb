@@ -43,6 +43,8 @@ action :create do
   virtual_mac = data['virtual_mac']
   virtual_ip = data['virtual_ip']
   vids = data['vids']
+  vrf = data['vrf']
+  vrf_table = data['vrf_table']
   pvid = data['pvid']
   clagd_enable = data['clagd_enable']
   mstpctl_portnetwork = data['mstpctl_portnetwork']
@@ -59,16 +61,18 @@ action :create do
   config['address'] = address unless address.nil?
   # If single address, don't use an array (for ifquery -o json equality test)
   config['address'] = address[0] if address.class == Array && address.count == 1
-  config['alias'] = alias_name unless alias_name.nil?
-  config['mtu'] = mtu unless mtu.nil?
+  config['alias'] = alias_name.to_s unless alias_name.nil?
+  config['mtu'] = mtu.to_s unless mtu.nil?
   config['bridge-vids'] = vids unless vids.nil?
-  config['bridge-pvid'] = pvid unless pvid.nil?
+  config['bridge-pvid'] = pvid.to_s unless pvid.nil?
   config['address-virtual'] = [virtual_mac, virtual_ip].compact.join(' ') unless virtual_ip.nil? && virtual_mac.nil?
   config['post-up'] = post_up unless post_up.nil?
   config['pre-down'] = pre_down unless pre_down.nil?
   config['mstpctl-portnetwork'] = Cumulus::Utils.bool_to_yn(mstpctl_portnetwork) unless mstpctl_portnetwork.nil?
   config['mstpctl-portadminedge'] = Cumulus::Utils.bool_to_yn(mstpctl_portadminedge) unless mstpctl_portadminedge.nil?
   config['mstpctl-bpduguard'] = Cumulus::Utils.bool_to_yn(mstpctl_bpduguard) unless mstpctl_bpduguard.nil?
+  config['vrf'] = vrf.to_s unless vrf.nil?
+  config['vrf-table'] = vrf_table.to_s unless vrf_table.nil?
 
   # Insert CLAG parameters if CLAG is enabled
   if clagd_enable
@@ -78,14 +82,14 @@ action :create do
     clagd_args = data['clagd_args']
 
     config['clagd-enable'] = 'yes'
-    config['clagd-peer-ip'] = clagd_peer_ip unless clagd_peer_ip.nil?
-    config['clagd-priority'] = clagd_priority unless clagd_priority.nil?
-    config['clagd-sys-mac'] = clagd_sys_mac unless clagd_sys_mac.nil?
+    config['clagd-peer-ip'] = clagd_peer_ip.to_s unless clagd_peer_ip.nil?
+    config['clagd-priority'] = clagd_priority.to_s unless clagd_priority.nil?
+    config['clagd-sys-mac'] = clagd_sys_mac.to_s unless clagd_sys_mac.nil?
     config['clagd-args'] = "\"#{clagd_args}\"" unless clagd_args.nil?
   end
 
   unless speed.nil?
-    config['link-speed'] = speed
+    config['link-speed'] = speed.to_s
     # link-duplex is always set to 'full' if link-speed is set
     config['link-duplex'] = 'full'
   end
@@ -94,11 +98,11 @@ action :create do
   addr_family = addr_method.nil? ? nil : 'inet'
 
   new = [{ 'auto' => true,
-           'name' => name,
+           'name' => name.to_s,
            'config' => config }]
 
-  new[0]['addr_method'] = addr_method if addr_method
-  new[0]['addr_family'] = addr_family if addr_family
+  new[0]['addr_method'] = addr_method.to_s if addr_method
+  new[0]['addr_family'] = addr_family.to_s if addr_family
 
   current = Cumulus::Utils.if_to_hash(name)
 

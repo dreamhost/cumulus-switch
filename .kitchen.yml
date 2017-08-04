@@ -12,7 +12,13 @@ platforms:
       box: cumulus-vx-2.5.3
       box_url: 'https://objects.dreamhost.com/public-github/vagrant/boxes/cumulus-vx-2.5.3-chef-vbox.box'
       provision: true
-      vagrantfiles: ['test/provision-chef.rb']
+      vagrantfiles: ['test/provision_chef.rb']
+  - name: cumulus-vx-3.3.2
+    driver:
+      box: cumulus-vx-3.3.2
+      box_url: 'http://cumulusfiles.s3.amazonaws.com/cumulus-linux-3.3.2-vx-amd64.box'
+      provision: true
+      vagrantfiles: ['test/provision_chef_cl3.rb']
 
 suites:
   - name: default
