@@ -58,7 +58,7 @@ action :create do
   config = {}
 
   # Insert optional parameters
-  config['address'] = address unless address.nil?
+  config['address'] = address unless address.nil? || address.empty?
   # If single address, don't use an array (for ifquery -o json equality test)
   config['address'] = address[0] if address.class == Array && address.count == 1
   config['alias'] = alias_name.to_s unless alias_name.nil?
