@@ -40,6 +40,7 @@ end
 
 # Bridges
 node['cumulus']['bridge'].keys.each do |bridge|
+  Chef::Log.debug("attempting configure bridge #{bridge}")
   cumulus_switch_bridge bridge do
     notifies :run, 'execute[reload_networking]', :delayed if node['cumulus']['reload_networking']
   end
