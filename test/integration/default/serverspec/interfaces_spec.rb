@@ -61,6 +61,11 @@ describe file("#{intf_dir}/swp2") do
   its(:content) { should match(%r{pre-down ip route del 172.16.0.0/12 via 192.168.200.2}) }
 end
 
+describe file("#{intf_dir}/vni") do
+  its(:content) { should match(/vxlan-id 1000/) }
+  its(:content) { should match(/vxlan-local-tunnelip 192.168.10.1/) }
+end
+
 # post_up should work as String as well as Array
 describe file("#{intf_dir}/swp3") do
   its(:content) { should match(/iface swp3/) }

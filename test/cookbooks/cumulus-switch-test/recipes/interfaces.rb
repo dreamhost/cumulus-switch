@@ -28,6 +28,8 @@ node.set['cumulus']['interface']['swp2']['pre_down'] = [
   'ip route del 10.0.0.0/8 via 192.168.200.2',
   'ip route del 172.16.0.0/12 via 192.168.200.2'
 ]
+node.set['cumulus']['interface']['vni']['vxlan_id'] = '1000'
+node.set['cumulus']['interface']['vni']['vxlan_local_tunnelip'] = '192.168.10.1'
 
 # Test post_up and pre_down as String instead of Array
 node.set['cumulus']['interface']['swp3']['post_up'] = 'ip route add 192.168.0.0/16 via 192.168.200.2'
