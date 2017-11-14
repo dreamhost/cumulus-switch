@@ -7,15 +7,8 @@
 # All rights reserved - Do Not Redistribute
 #
 
-cookbook_file '/tmp/test.v1' do
-  source 'test_noeula.v1'
+cookbook_file '/tmp/test.lic' do
+  source 'test.lic'
 end
 
-cumulus_license 'test' do
-  source 'file:///tmp/test.v1'
-end
-
-cumulus_license 'test-with-force' do
-  source 'file:///tmp/test.v1'
-  force true
-end
+node.set['cumulus']['license'] = 'file:///tmp/test.lic'

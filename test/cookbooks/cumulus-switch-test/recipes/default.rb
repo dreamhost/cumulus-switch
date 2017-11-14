@@ -22,3 +22,4 @@ include_recipe 'cumulus-switch-test::mgmt_vrf'
 
 include_recipe 'cumulus-switch::base'
 include_recipe 'cumulus-switch::mgmt_vrf'
+include_recipe 'cumulus-switch::license'

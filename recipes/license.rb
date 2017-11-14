@@ -18,7 +18,7 @@
 # limitations under the License.
 #
 
-cumulus_license 'license' do
+cumulus_switch_license 'license' do
   source node['cumulus']['license']
-  notifies :restart, "service[switchd]"
+  notifies :restart, 'service[switchd]'
 end

@@ -32,7 +32,7 @@ directory location do
 end
 
 # Copy the configuration for eth0 & lo interfaces into fragments
-%w( eth0 lo ).each do |intf|
+%w[eth0 lo].each do |intf|
   config = ::File.join(location, intf)
   execute "#{intf} config" do
     command "ifquery #{intf} > #{config}"
