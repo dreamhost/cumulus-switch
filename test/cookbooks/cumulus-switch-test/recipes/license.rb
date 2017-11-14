@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: cumulus-test
+# Cookbook Name:: cumulus-switch-test
 # Recipe:: license
 #
 # Copyright 2015, Cumulus Networks
