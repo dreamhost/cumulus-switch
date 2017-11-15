@@ -17,6 +17,7 @@ Requirements
 
 Tested on:
 * Cumulus Linux 2.5.3
+* Cumulus Linux 3.3.2
 
 Recipes
 ==========
@@ -40,6 +41,10 @@ The isc-dhcp-relay recipe enables configuration of a dhcp relay.  This is a temp
 ### cumulus-switch::mgmt-vrf
 
 The mgmt-vrf recipe enables configuration of a Management VRF ([documentation](http://docs.cumulusnetworks.com/display/DOCS/Management+VRF))
+
+### cumulus-switch::license
+
+The license recipe installs a license. The value must be a URL where the license file is located.
 
 Attributes
 ==========
@@ -78,6 +83,8 @@ Attribute        | Description |Type | Default
 `['clagd_priority']` | CLAG priority for this switch | Integer | `nil`
 `['clagd_sys_mac']` | CLAG system MAC. The MAC must be identical on both of the CLAG peers. | String | `nil`
 `['clagd_args']` | Any additional arguments to be passed to the clagd deamon. | String | `nil`
+`['vxlan_local_tunnelip']` | Ip address that is used for vxlan tunnel peering. | String | `nil`
+`['vxlan_id']` | Vxlan id for the interface. | String | `nil`
 
 Note!  You can use all of the above attributes on `node['cumulus']['interface_range'][$NAME]` as well.  Use a a String in a format like `swp[1-24].100` or `swp[2-5]` for $NAME.
 

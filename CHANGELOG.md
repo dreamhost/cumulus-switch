@@ -1,3 +1,15 @@
+## 2.1.2 (2017-11-14):
+
+Features:
+  - License support (@nertwork)
+
+## 2.1.2 (2017-11-10):
+
+Features:
+  - Vxlan support (@nertwork)
+    - vxlan_id
+    - vxlan_local_tunnelip
+
 ## 2.1.1 (2017-08-04):
 
 Features:
