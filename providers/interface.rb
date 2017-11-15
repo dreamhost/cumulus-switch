@@ -45,6 +45,8 @@ action :create do
   vids = data['vids']
   vrf = data['vrf']
   vrf_table = data['vrf_table']
+  vxlan_id = data['vxlan_id']
+  vxlan_local_tunnelip = data['vxlan_local_tunnelip']
   pvid = data['pvid']
   clagd_enable = data['clagd_enable']
   mstpctl_portnetwork = data['mstpctl_portnetwork']
@@ -72,6 +74,8 @@ action :create do
   config['mstpctl-portadminedge'] = Cumulus::Utils.bool_to_yn(mstpctl_portadminedge) unless mstpctl_portadminedge.nil?
   config['mstpctl-bpduguard'] = Cumulus::Utils.bool_to_yn(mstpctl_bpduguard) unless mstpctl_bpduguard.nil?
   config['vrf'] = vrf.to_s unless vrf.nil?
+  config['vxlan-id'] = vxlan_id.to_s unless vxlan_id.nil?
+  config['vxlan-local-tunnelip'] = vxlan_local_tunnelip.to_s unless vxlan_local_tunnelip.nil?
   config['vrf-table'] = vrf_table.to_s unless vrf_table.nil?
 
   # Insert CLAG parameters if CLAG is enabled

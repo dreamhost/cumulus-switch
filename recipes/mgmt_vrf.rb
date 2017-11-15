@@ -44,7 +44,7 @@ else
     end
   elsif enabled == false
     Chef::Log.info('Disabling Management VRF')
-    # Update repo and install cl-mgmtvrf
+    # Update repo and uninstall cl-mgmtvrf
     execute 'apt-get update'
     package 'cl-mgmtvrf' do
       action :remove
