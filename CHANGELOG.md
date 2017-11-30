@@ -1,4 +1,4 @@
-## 2.1.2 (2017-11-14):
+## 2.1.4 (2017-11-14):
 
 Features:
   - License support (@nertwork)
