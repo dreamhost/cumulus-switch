@@ -31,7 +31,7 @@ when /^2\./
     end
   else
     node.default['cumulus']['switchd'] = {
-      'logging' : 'file:/var/log/switchd.log=INFO',
+      'logging' => 'file:/var/log/switchd.log=INFO',
     }
     template '/etc/cumulus/switchd.conf' do
       source 'switchd.erb'
@@ -51,9 +51,9 @@ when /^3\./
     end
   else 
     node.default['cumulus']['switchd'] = {
-      'acl.non_atomic_update_mode' : 'FALSE',
-      'logging' : 'syslog=INFO',
-      'ignore_non_swps' : 'TRUE',
+      'acl.non_atomic_update_mode' => 'FALSE',
+      'logging' => 'syslog=INFO',
+      'ignore_non_swps' => 'TRUE',
     }
     template '/etc/cumulus/switchd.conf' do
       source 'switchd.erb'
