@@ -30,6 +30,9 @@ when /^2\./
       mode '0644'
     end
   else
+    node.default['cumulus']['switchd'] = {
+      'logging' : 'file:/var/log/switchd.log=INFO',
+    }
     template '/etc/cumulus/switchd.conf' do
       source 'switchd.erb'
       owner 'root'
@@ -47,6 +50,11 @@ when /^3\./
       mode '0644'
     end
   else 
+    node.default['cumulus']['switchd'] = {
+      'acl.non_atomic_update_mode' : 'FALSE',
+      'logging' : 'syslog=INFO',
+      'ignore_non_swps' : 'TRUE',
+    }
     template '/etc/cumulus/switchd.conf' do
       source 'switchd.erb'
       owner 'root'
