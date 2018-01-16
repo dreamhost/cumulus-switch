@@ -20,46 +20,35 @@ end
 
 use_inline_resources
 
-case node['lsb']['release']
-when /^2\./
-  if switchd.empty?
-    cookbook_file '/etc/cumulus/switchd.conf' do
-      source 'switchd-2.conf'
-      owner 'root'
-      group 'root'
-      mode '0644'
-    end
-  else
-    node.default['cumulus']['switchd'] = {
-      'logging' => 'file:/var/log/switchd.log=INFO',
-    }
-    template '/etc/cumulus/switchd.conf' do
-      source 'switchd.erb'
-      owner 'root'
-      group 'root'
-      mode '0644'
-    end
-  end
 
-when /^3\./
-  if switchd.empty?
-    cookbook_file '/etc/cumulus/switchd.conf' do
-      source 'switchd-3.conf'
-      owner 'root'
-      group 'root'
-      mode '0644'
-    end
-  else 
-    node.default['cumulus']['switchd'] = {
-      'acl.non_atomic_update_mode' => 'FALSE',
-      'logging' => 'syslog=INFO',
-      'ignore_non_swps' => 'TRUE',
-    }
-    template '/etc/cumulus/switchd.conf' do
-      source 'switchd.erb'
-      owner 'root'
-      group 'root'
-      mode '0644'
-    end
+case node['lsb']['release']
+when /^[12]\./
+  switchd_template = 'switchd-2.conf'
+  switchd_options = {
+    'logging' : 'file:/var/log/switchd.log=INFO',
+  }
+else
+  switchd_template = 'switchd.conf'
+  switchd_options = {
+    'acl.non_atomic_update_mode' : 'FALSE',
+    'logging' : 'syslog=INFO',
+    'ignore_non_swps' : 'TRUE',
+  }
+end
+
+if switchd.empty?
+  cookbook_file '/etc/cumulus/switchd.conf' do
+    source switchd_template
+    owner 'root'
+    group 'root'
+    mode '0644'
+  end
+else
+  node.default['cumulus']['switchd'] = switchd_options
+  template '/etc/cumulus/switchd.conf' do
+    source 'switchd.erb'
+    owner 'root'
+    group 'root'
+    mode '0644'
   end
 end
