@@ -16,8 +16,4 @@
 actions :create
 default_action :create
 
-<<<<<<< HEAD
 attribute :release, kind_of: String, name_attribute: true
-=======
-attribute :release, kind_of: String
->>>>>>> refs/remotes/origin/master
