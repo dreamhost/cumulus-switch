@@ -21,8 +21,9 @@ end
 
 use_inline_resources
 
+## This action is for cumulus linux 1 or 2
 action :createv2 do
-  name = new_resource.switchd
+  name = new_resource.name
   if node['cumulus']['switchd'].empty?
     cookbook_file '/etc/cumulus/switchd.conf' do
       source 'switchd-2.conf'
@@ -43,6 +44,7 @@ action :createv2 do
   end
 end
 
+## This action is for cumulus linux 3
 action :create do
   name = new_resource.name
   if node['cumulus']['switchd'].empty?
