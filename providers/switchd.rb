@@ -22,7 +22,8 @@ end
 use_inline_resources
 
 action :create do
-  release = new_resource.name
+  ## attribute release created in resources
+  release release
   case release
     ## This action is for cumulus linux 1 or 2
   when /^[12]\./
@@ -30,6 +31,7 @@ action :create do
     unless node['cumulus']['switchd'].empty?
       node.default['cumulus']['switchd']['logging'] = 'file=>/var/log/switchd.log=INFO'
     end
+  ## This action is for cumulus linux 3 or greater
   else
     source_file = 'switchd.conf'
     unless node['cumulus']['switchd'].empty?

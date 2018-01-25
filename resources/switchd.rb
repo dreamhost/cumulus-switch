@@ -14,6 +14,7 @@
 #
 attribute :switchd, kind_of: String, name_attribute: true
 
-actions :create, :createv2
+actions :create
 default_action :create
 
+attribute :release, kind_of: String
