@@ -54,19 +54,9 @@ end
 # Switchd config
 release = node['lsb']['release']
 
-case release
-when /^[12]\./
-  cumulus_switch_switchd 'switchd' do
-    action :createv2
-    unless node['cumulus']['switchd'].empty?
-      notifies :restart, 'service[switchd]', :delayed if node['cumulus']['restart_switchd']
-    end
-  end
-else
-  cumulus_switch_switchd 'switchd' do
-    action :create
-    unless node['cumulus']['switchd'].empty?
-      notifies :restart, 'service[switchd]', :delayed if node['cumulus']['restart_switchd']
-    end
+cumulus_switch_switchd release do
+  action :create
+  unless node['cumulus']['switchd'].empty?
+    notifies :restart, 'service[switchd]', :delayed if node['cumulus']['restart_switchd']
   end
 end

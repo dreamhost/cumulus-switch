@@ -21,45 +21,33 @@ end
 
 use_inline_resources
 
-## This action is for cumulus linux 1 or 2
-action :createv2 do
-  name = new_resource.name
-  if node['cumulus']['switchd'].empty?
-    cookbook_file '/etc/cumulus/switchd.conf' do
-      source 'switchd-2.conf'
-      owner 'root'
-      group 'root'
-      mode '0644'
+action :create do
+  release = new_resource.name
+  case release
+    ## This action is for cumulus linux 1 or 2
+  when /^[12]\./
+    if node['cumulus']['switchd'].empty?
+      source_file = 'switchd-2.conf'
+    else
+      node.default['cumulus']['switchd']['logging'] = 'file=>/var/log/switchd.log=INFO'
     end
-
   else
-    node.default['cumulus']['switchd']['logging'] = 'file=>/var/log/switchd.log=INFO'
-
-    template '/etc/cumulus/switchd.conf' do
-      source 'switchd.erb'
-      owner 'root'
-      group 'root'
-      mode '0644'
+    if node['cumulus']['switchd'].empty?
+      source_file = 'switchd.conf'
+    else
+      node.default['cumulus']['switchd']['acl.non_atomic_update_mode'] = 'FALSE'
+      node.default['cumulus']['switchd']['logging'] = 'syslog=INFO'
+      node.default['cumulus']['switchd']['ignore_non_swps'] = 'TRUE'
     end
   end
-end
-
-## This action is for cumulus linux 3
-action :create do
-  name = new_resource.name
   if node['cumulus']['switchd'].empty?
     cookbook_file '/etc/cumulus/switchd.conf' do
-      source 'switchd.conf'
+      source source_file
       owner 'root'
       group 'root'
       mode '0644'
     end
-
   else
-    node.default['cumulus']['switchd']['acl.non_atomic_update_mode'] = 'FALSE'
-    node.default['cumulus']['switchd']['logging'] = 'syslog=INFO'
-    node.default['cumulus']['switchd']['ignore_non_swps'] = 'TRUE'
-
     template '/etc/cumulus/switchd.conf' do
       source 'switchd.erb'
       owner 'root'
