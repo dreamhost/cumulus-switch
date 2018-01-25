@@ -1,0 +1,4 @@
+# Managed by Chef
+<% node['cumulus']['switchd'].each do |conf, value| -%>
+<%= conf %> = <%= value %>
+<% end -%>

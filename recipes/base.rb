@@ -50,3 +50,13 @@ end
 cumulus_switch_ports 'speeds' do
   notifies :restart, 'service[switchd]', :delayed if node['cumulus']['restart_switchd']
 end
+
+# Switchd config
+release = node['lsb']['release']
+
+cumulus_switch_switchd release do
+  action :create
+  unless node['cumulus']['switchd'].empty?
+    notifies :restart, 'service[switchd]', :delayed if node['cumulus']['restart_switchd']
+  end
+end
