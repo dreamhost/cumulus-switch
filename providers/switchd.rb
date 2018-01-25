@@ -23,7 +23,11 @@ use_inline_resources
 
 action :create do
   ## attribute release created in resources
+<<<<<<< HEAD
   release = new_resource.release
+=======
+  release release
+>>>>>>> refs/remotes/origin/master
   case release
     ## This action is for cumulus linux 1 or 2
   when /^[12]\./
