@@ -26,15 +26,13 @@ action :create do
   case release
     ## This action is for cumulus linux 1 or 2
   when /^[12]\./
-    if node['cumulus']['switchd'].empty?
-      source_file = 'switchd-2.conf'
-    else
+    source_file = 'switchd-2.conf'
+    unless node['cumulus']['switchd'].empty?
       node.default['cumulus']['switchd']['logging'] = 'file=>/var/log/switchd.log=INFO'
     end
   else
-    if node['cumulus']['switchd'].empty?
-      source_file = 'switchd.conf'
-    else
+    source_file = 'switchd.conf'
+    unless node['cumulus']['switchd'].empty?
       node.default['cumulus']['switchd']['acl.non_atomic_update_mode'] = 'FALSE'
       node.default['cumulus']['switchd']['logging'] = 'syslog=INFO'
       node.default['cumulus']['switchd']['ignore_non_swps'] = 'TRUE'
