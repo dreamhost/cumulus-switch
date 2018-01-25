@@ -49,7 +49,7 @@ action :create do
   name = new_resource.name
   if node['cumulus']['switchd'].empty?
     cookbook_file '/etc/cumulus/switchd.conf' do
-      source 'switchd-2.conf'
+      source 'switchd.conf'
       owner 'root'
       group 'root'
       mode '0644'
