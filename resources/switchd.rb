@@ -1,5 +1,4 @@
-# Copyright 2015, Cumulus Networks
-# Copyright 2016, DreamHost
+# Copyright 2018, DreamHost
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
