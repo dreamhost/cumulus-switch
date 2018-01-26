@@ -29,27 +29,28 @@ action :create do
 
   Chef::Application.fatal!('Trying to configure a bond with no slaves =(') unless data['slaves']
 
-  ipv4 = data['ipv4'] || []
-  ipv6 = data['ipv6'] || []
-  slaves = Cumulus::Utils.prefix_glob_port_list(data['slaves'])
   addr_method = data['addr_method']
   alias_name = data['alias']
-  mtu = data['mtu']
+  bridge_access = data['bridge_access']
   clag_id = data['clag_id']
+  ipv4 = data['ipv4'] || []
+  ipv6 = data['ipv6'] || []
   lacp_bypass_allow = data['lacp_bypass_allow']
-  virtual_mac = data['virtual_mac']
-  virtual_ip = data['virtual_ip']
-  vids = data['vids']
-  pvid = data['pvid']
-  post_up = data['post_up']
-  pre_down = data['pre_down']
-  mstpctl_portnetwork = data['mstpctl_portnetwork']
-  mstpctl_portadminedge = data['mstpctl_portadminedge']
-  mstpctl_bpduguard = data['mstpctl_bpduguard']
+  lacp_rate = data['lacp_rate'] || 1
+  miimon = data['miimon'] || 100
   min_links = data['min_links'] || 1
   mode = data['mode'] || '802.3ad'
-  miimon = data['miimon'] || 100
-  lacp_rate = data['lacp_rate'] || 1
+  mstpctl_bpduguard = data['mstpctl_bpduguard']
+  mstpctl_portadminedge = data['mstpctl_portadminedge']
+  mstpctl_portnetwork = data['mstpctl_portnetwork']
+  mtu = data['mtu']
+  post_up = data['post_up']
+  pre_down = data['pre_down']
+  pvid = data['pvid']
+  slaves = Cumulus::Utils.prefix_glob_port_list(data['slaves'])
+  vids = data['vids']
+  virtual_ip = data['virtual_ip']
+  virtual_mac = data['virtual_mac']
   xmit_hash_policy = data['xmit_hash_policy'] || 'layer3+4'
 
   location = new_resource.location
@@ -67,18 +68,19 @@ action :create do
   config['address'] = address unless address.nil?
   # If single address, don't use an array (for ifquery -o json equality test)
   config['address'] = address[0] if address.class == Array && address.count == 1
-  config['alias'] = alias_name.to_s unless alias_name.nil?
-  config['mtu'] = mtu.to_s unless mtu.nil?
-  config['clag-id'] = clag_id.to_s unless clag_id.nil?
-  config['bridge-vids'] = vids unless vids.nil?
-  config['bridge-pvid'] = pvid.to_s unless pvid.nil?
   config['address-virtual'] = [virtual_mac, virtual_ip].compact.join(' ') unless virtual_ip.nil? && virtual_mac.nil?
+  config['alias'] = alias_name.to_s unless alias_name.nil?
+  config['bond-lacp-bypass-allow'] = lacp_bypass_allow.to_s unless lacp_bypass_allow.nil?
+  config['bridge-pvid'] = pvid.to_s unless pvid.nil?
+  config['bridge-vids'] = vids unless vids.nil?
+  config['bridge-access'] = bridge_access.to_s unless bridge_access.nil?
+  config['clag-id'] = clag_id.to_s unless clag_id.nil?
+  config['mstpctl-bpduguard'] = Cumulus::Utils.bool_to_yn(mstpctl_bpduguard) unless mstpctl_bpduguard.nil?
+  config['mstpctl-portadminedge'] = Cumulus::Utils.bool_to_yn(mstpctl_portadminedge) unless mstpctl_portadminedge.nil?
+  config['mstpctl-portnetwork'] = Cumulus::Utils.bool_to_yn(mstpctl_portnetwork) unless mstpctl_portnetwork.nil?
+  config['mtu'] = mtu.to_s unless mtu.nil?
   config['post-up'] = post_up unless post_up.nil?
   config['pre-down'] = pre_down unless post_up.nil?
-  config['mstpctl-portnetwork'] = Cumulus::Utils.bool_to_yn(mstpctl_portnetwork) unless mstpctl_portnetwork.nil?
-  config['mstpctl-portadminedge'] = Cumulus::Utils.bool_to_yn(mstpctl_portadminedge) unless mstpctl_portadminedge.nil?
-  config['mstpctl-bpduguard'] = Cumulus::Utils.bool_to_yn(mstpctl_bpduguard) unless mstpctl_bpduguard.nil?
-  config['bond-lacp-bypass-allow'] = lacp_bypass_allow.to_s unless lacp_bypass_allow.nil?
 
   # Family is always 'inet' if a method is set
   addr_family = addr_method.nil? ? nil : 'inet'
