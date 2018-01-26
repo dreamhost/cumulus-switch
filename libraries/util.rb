@@ -69,7 +69,7 @@ module Cumulus
       def prefix_glob_port_list(list = [])
         out = []
         list.each do |port|
-          match = port.match(/^(.+)-(.+)$/)
+          match = port.match(/^.+\d-\d+$/)
           if match
             out << "glob #{port}"
           else

@@ -52,6 +52,7 @@ action :create do
   mstpctl_portnetwork = data['mstpctl_portnetwork']
   mstpctl_portadminedge = data['mstpctl_portadminedge']
   mstpctl_bpduguard = data['mstpctl_bpduguard']
+  mstpctl_portbpdufilter = data['mstpctl_portbpdufilter']
 
   location = new_resource.location
 
@@ -73,6 +74,7 @@ action :create do
   config['mstpctl-portnetwork'] = Cumulus::Utils.bool_to_yn(mstpctl_portnetwork) unless mstpctl_portnetwork.nil?
   config['mstpctl-portadminedge'] = Cumulus::Utils.bool_to_yn(mstpctl_portadminedge) unless mstpctl_portadminedge.nil?
   config['mstpctl-bpduguard'] = Cumulus::Utils.bool_to_yn(mstpctl_bpduguard) unless mstpctl_bpduguard.nil?
+  config['mstpctl-portbpdufilter'] = Cumulus::Utils.bool_to_yn(mstpctl_portbpdufilter) unless mstpctl_portbpdufilter.nil?
   config['vrf'] = vrf.to_s unless vrf.nil?
   config['vxlan-id'] = vxlan_id.to_s unless vxlan_id.nil?
   config['vxlan-local-tunnelip'] = vxlan_local_tunnelip.to_s unless vxlan_local_tunnelip.nil?
@@ -83,12 +85,14 @@ action :create do
     clagd_peer_ip = data['clagd_peer_ip']
     clagd_priority = data['clagd_priority']
     clagd_sys_mac = data['clagd_sys_mac']
+    clagd_backup_ip = data['clagd_backup_ip']
     clagd_args = data['clagd_args']
 
     config['clagd-enable'] = 'yes'
     config['clagd-peer-ip'] = clagd_peer_ip.to_s unless clagd_peer_ip.nil?
     config['clagd-priority'] = clagd_priority.to_s unless clagd_priority.nil?
     config['clagd-sys-mac'] = clagd_sys_mac.to_s unless clagd_sys_mac.nil?
+    config['clagd-backup-ip'] = clagd_backup_ip.to_s unless clagd_backup_ip.nil?
     config['clagd-args'] = "\"#{clagd_args}\"" unless clagd_args.nil?
   end
 

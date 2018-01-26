@@ -54,6 +54,7 @@ describe file("#{intf_dir}/swp2") do
   its(:content) { should match(/mstpctl-portnetwork yes/) }
   its(:content) { should match(/mstpctl-portadminedge yes/) }
   its(:content) { should match(/mstpctl-bpduguard yes/) }
+  its(:content) { should match(/mstpctl-portbpdufilter yes/) }
   its(:content) { should match(/address-virtual 11:22:33:44:55:66 192.168.10.1/) }
   its(:content) { should match(%r{post-up ip route add 10.0.0.0/8 via 192.168.200.2}) }
   its(:content) { should match(%r{post-up ip route add 172.16.0.0/12 via 192.168.200.2}) }
@@ -79,6 +80,7 @@ describe file("#{intf_dir}/swp4") do
   its(:content) { should match(/clagd-enable yes/) }
   its(:content) { should match(/clagd-priority 1/) }
   its(:content) { should match(/clagd-peer-ip 10.1.2.3/) }
+  its(:content) { should match(/clagd-backup-ip 10.1.2.2/) }
   its(:content) { should match(/clagd-sys-mac aa:bb:cc:dd:ee:ff/) }
   its(:content) { should match(/clagd-args "--backupPort 5400"/) }
 end
