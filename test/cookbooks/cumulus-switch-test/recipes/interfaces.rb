@@ -20,6 +20,7 @@ node.set['cumulus']['interface']['swp2']['virtual_ip'] = '192.168.10.1'
 node.set['cumulus']['interface']['swp2']['mstpctl_portnetwork'] = true
 node.set['cumulus']['interface']['swp2']['mstpctl_portadminedge'] = true
 node.set['cumulus']['interface']['swp2']['mstpctl_bpduguard'] = true
+node.set['cumulus']['interface']['swp2']['mstpctl_portbpdufilter'] = true
 node.set['cumulus']['interface']['swp2']['post_up'] = [
   'ip route add 10.0.0.0/8 via 192.168.200.2',
   'ip route add 172.16.0.0/12 via 192.168.200.2'
@@ -39,6 +40,7 @@ node.set['cumulus']['interface']['swp3']['pre_down'] = 'ip route del 192.168.0.0
 node.set['cumulus']['interface']['swp4']['clagd_enable'] = true
 node.set['cumulus']['interface']['swp4']['clagd_priority'] = 1
 node.set['cumulus']['interface']['swp4']['clagd_peer_ip'] = '10.1.2.3'
+node.set['cumulus']['interface']['swp4']['clagd_backup_ip'] = '10.1.2.2'
 node.set['cumulus']['interface']['swp4']['clagd_sys_mac'] = 'aa:bb:cc:dd:ee:ff'
 node.set['cumulus']['interface']['swp4']['clagd_args'] = '--backupPort 5400'
 

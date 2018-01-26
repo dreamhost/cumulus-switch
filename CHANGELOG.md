@@ -1,3 +1,16 @@
+## 2.1.6 (2018-1-25):
+
+Features:
+  - Additional clagd features and bpdufilter feature (@nertwork)
+
+## 2.1.5 (2018-1-24):
+
+Features:
+  - Switchd custom configuration (@nertwork)
+
+TODO:
+  - Add in documentation and testing for switchd (@nertwork)
+
 ## 2.1.4 (2017-11-14):
 
 Features:

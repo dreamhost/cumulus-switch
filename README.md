@@ -77,11 +77,13 @@ Attribute        | Description |Type | Default
 `['pvid']` | Native VLAN for a VLAN aware trunk interface. | Integer | `nil`
 `['mstpctl_portnetwork']` | Enable bridge assurance on a VLAN aware trunk. | Boolean | `nil`
 `['mstpctl_portadminedge']` | Enables admin edge port. | Boolean | `nil`
-`['mstpctl_bpduguard']` | Enable BPDU guard on a VLAN aware trunk. | Boolean | `nil`
+`['mstpctl_bpduguard']` | Enable BPDU guard on a VLAN aware trunk port. | Boolean | `nil`
+`['mstpctl_portbpdufilter']` | Enable BPDU filter on a VLAN aware trunk port. | Boolean | `nil`
 `['clagd_enable']` | Enable CLAGD on the interface ([documentation](http://docs.cumulusnetworks.com/display/DOCS/Multi-Chassis+Link+Aggregation+-+MLAG)). | Boolean | `nil`
 `['clagd_peer_ip']` | Address of the CLAG peer switch | String | `nil`
 `['clagd_priority']` | CLAG priority for this switch | Integer | `nil`
 `['clagd_sys_mac']` | CLAG system MAC. The MAC must be identical on both of the CLAG peers. | String | `nil`
+`['clagd_backup_ip']` | CLAG Backup IP. | String | `nil`
 `['clagd_args']` | Any additional arguments to be passed to the clagd deamon. | String | `nil`
 `['vxlan_local_tunnelip']` | Ip address that is used for vxlan tunnel peering. | String | `nil`
 `['vxlan_id']` | Vxlan id for the interface. | String | `nil`

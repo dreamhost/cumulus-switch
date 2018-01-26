@@ -47,8 +47,10 @@ node['cumulus']['bridge'].keys.each do |bridge|
 end
 
 # Ports
-cumulus_switch_ports 'speeds' do
-  notifies :restart, 'service[switchd]', :delayed if node['cumulus']['restart_switchd']
+unless node['cumulus']['ports'].empty?
+  cumulus_switch_ports 'speeds' do
+    notifies :restart, 'service[switchd]', :delayed if node['cumulus']['restart_switchd']
+  end
 end
 
 # Switchd config

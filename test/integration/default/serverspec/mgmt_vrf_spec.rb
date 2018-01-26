@@ -11,4 +11,3 @@ if /^2\./.match os[:release]
     its(:exit_status) { should eq 0 }
   end
 end
-
