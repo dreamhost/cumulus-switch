@@ -1,3 +1,9 @@
+## 2.1.7 (2018-2-5):
+
+Features:
+  - Adding in bridge-access support (@nertwork)
+  - Adding vxlan options under interface configurations (@nertwork)
+
 ## 2.1.6 (2018-1-25):
 
 Features:

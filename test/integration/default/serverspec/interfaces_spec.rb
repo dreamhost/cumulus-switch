@@ -62,9 +62,15 @@ describe file("#{intf_dir}/swp2") do
   its(:content) { should match(%r{pre-down ip route del 172.16.0.0/12 via 192.168.200.2}) }
 end
 
+describe file("#{intf_dir}/swp13") do
+  its(:content) { should match(/iface swp13/) }
+  its(:content) { should match(/bridge-access 100/) }
+end
+
 describe file("#{intf_dir}/vni") do
   its(:content) { should match(/vxlan-id 1000/) }
   its(:content) { should match(/vxlan-local-tunnelip 192.168.10.1/) }
+  its(:content) { should match(/vxrd-svcnode-ip 192.168.10.10/) }
 end
 
 # post_up should work as String as well as Array
@@ -82,7 +88,7 @@ describe file("#{intf_dir}/swp4") do
   its(:content) { should match(/clagd-peer-ip 10.1.2.3/) }
   its(:content) { should match(/clagd-backup-ip 10.1.2.2/) }
   its(:content) { should match(/clagd-sys-mac aa:bb:cc:dd:ee:ff/) }
-  its(:content) { should match(/clagd-args "--backupPort 5400"/) }
+  its(:content) { should match(/clagd-args --backupPort 5400/) }
 end
 
 # Interface ranges

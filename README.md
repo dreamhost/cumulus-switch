@@ -63,32 +63,37 @@ Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
 `node['cumulus']['interface']` | A hash of interfaces. Keys are the interface name, values are a hash with optional configuration. | Hash | `{}`
 `node['cumulus']['interface'][$NAME]` | Configuration values for interface $NAME.  This will be the base for the following attributes. | Hash | `nil`
-`['ipv4']` | IPv4 address(s) to assign to the interface. | String or Array | `nil`
-`['ipv6']` | IPv6 address(s) to assign to the interface. | String or Array | `nil`
-`['alias']` | Interface alias (description). | String | `nil`
-`['speed']` | Speed to configure for the interface. | String | `nil`
-`['mtu']` | MTU to configure for the interface. | Integer | `nil`
-`['post_up']` | Post-up command(s) to run | String or Array | `nil`
-`['pre_down']` | Pre-down command(s) to run | String or Array | `nil`
 `['addr_method']` | Address assignment method, `dhcp` or `loopback`. | String | `nil`
-`['virtual_mac']` | VRR virtual MAC. | String | `nil`
-`['virtual_ip']` | VRR virtual IP. | String | `nil`
-`['vids']` | Array of VLANs to be configured for a VLAN aware trunk interface. | Array | `nil`
-`['pvid']` | Native VLAN for a VLAN aware trunk interface. | Integer | `nil`
-`['mstpctl_portnetwork']` | Enable bridge assurance on a VLAN aware trunk. | Boolean | `nil`
-`['mstpctl_portadminedge']` | Enables admin edge port. | Boolean | `nil`
-`['mstpctl_bpduguard']` | Enable BPDU guard on a VLAN aware trunk port. | Boolean | `nil`
-`['mstpctl_portbpdufilter']` | Enable BPDU filter on a VLAN aware trunk port. | Boolean | `nil`
+`['alias']` | Interface alias (description). | String | `nil`
+`['bridge_access']` | The vlan that the access port is a member of. | String | `nil`
+`['clagd_args']` | Any additional arguments to be passed to the clagd deamon. | String | `nil`
+`['clagd_backup_ip']` | CLAG Backup IP. | String | `nil`
 `['clagd_enable']` | Enable CLAGD on the interface ([documentation](http://docs.cumulusnetworks.com/display/DOCS/Multi-Chassis+Link+Aggregation+-+MLAG)). | Boolean | `nil`
 `['clagd_peer_ip']` | Address of the CLAG peer switch | String | `nil`
 `['clagd_priority']` | CLAG priority for this switch | Integer | `nil`
 `['clagd_sys_mac']` | CLAG system MAC. The MAC must be identical on both of the CLAG peers. | String | `nil`
-`['clagd_backup_ip']` | CLAG Backup IP. | String | `nil`
-`['clagd_args']` | Any additional arguments to be passed to the clagd deamon. | String | `nil`
-`['vxlan_local_tunnelip']` | Ip address that is used for vxlan tunnel peering. | String | `nil`
+`['clagd_vxlan_anycast_ip']` | This is the vxlan anycast IP to allow for mac table sharing. | String | `nil`
+`['ipv4']` | IPv4 address(s) to assign to the interface. | String or Array | `nil`
+`['ipv6']` | IPv6 address(s) to assign to the interface. | String or Array | `nil`
+`['mstpctl_bpduguard']` | Enable BPDU guard on a VLAN aware trunk port. | Boolean | `nil`
+`['mstpctl_portadminedge']` | Enables admin edge port. | Boolean | `nil`
+`['mstpctl_portbpdufilter']` | Enable BPDU filter on a VLAN aware trunk port. | Boolean | `nil`
+`['mstpctl_portnetwork']` | Enable bridge assurance on a VLAN aware trunk. | Boolean | `nil`
+`['mtu']` | MTU to configure for the interface. | Integer | `nil`
+`['post_up']` | Post-up command(s) to run | String or Array | `nil`
+`['pre_down']` | Pre-down command(s) to run | String or Array | `nil`
+`['pvid']` | Native VLAN for a VLAN aware trunk interface. | Integer | `nil`
+`['speed']` | Speed to configure for the interface. | String | `nil`
+`['vids']` | Array of VLANs to be configured for a VLAN aware trunk interface. | Array | `nil`
+`['virtual_ip']` | VRR virtual IP. | String | `nil`
+`['virtual_mac']` | VRR virtual MAC. | String | `nil`
 `['vxlan_id']` | Vxlan id for the interface. | String | `nil`
+`['vxlan_local_tunnelip']` | Ip address that is used for vxlan tunnel peering. | String | `nil`
+`['vxrd_src_ip']` | This is the src IP for all LVN Vxlan. | String | `nil`
+`['vxrd_svcnode_ip']` | This is the service node IP for all LVN Vxlan. | String | `nil`
 
 Note!  You can use all of the above attributes on `node['cumulus']['interface_range'][$NAME]` as well.  Use a a String in a format like `swp[1-24].100` or `swp[2-5]` for $NAME.
+Note!  To have any clagd configuration you must set clagd_enable to be evaluated as true.
 
 #### Bridges
 
@@ -118,28 +123,29 @@ Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
 `node['cumulus']['bond']` | A hash of bonds. Keys are the bond name, values are a hash with configuration for the bond. | Hash | `{}`
 `node['cumulus']['bond'][$NAME]` | Configuration values for bond $NAME.  This will be the base for the following attributes. | Hash | `nil`
-`['slaves']` | Bond members (*required*). | Array | `required`
+`['addr_method']` | Address assignment method, `dhcp` or `loopback`. | String | `nil`
+`['alias']` | Interface alias (description). | String | `nil`
+`['bridge_access']` | The vlan that the access port is a member of. | String | `nil`
+`['clag_id']` | Identifier for a CLAG bond. The ID must be the same on both CLAG peers. | Integer | `nil`
 `['ipv4']` | IPv4 address(s) to assign to the bond. | String or Array | `nil`
 `['ipv6']` | IPv6 address(s) to assign to the bond. | String or Array | `nil`
-`['alias']` | Interface alias (description). | String | `nil`
-`['mtu']` | MTU to configure for the interface. | Integer | `nil`
-`['post_up']` | Post-up command(s) to run | String or Array | `nil`
-`['pre_down']` | Pre-down command(s) to run | String or Array | `nil`
-`['addr_method']` | Address assignment method, `dhcp` or `loopback`. | String | `nil`
-`['virtual_mac']` | VRR virtual MAC (*needs to be fixed in cumulus cookbook*). | String | `nil`
-`['virtual_ip']` | VRR virtual IP (*needs to be fixed in cumulus cookbook*). | String | `nil`
-`['vids']` | Array of VLANs to be configured for a VLAN aware trunk interface. | Array | `nil`
-`['pvid']` | Native VLAN for a VLAN aware trunk interface. | Integer | `nil`
+`['lacp_bypass_allow']` | Enable LACP bypass. Set to `1` to enable (*needs to be boolean*). | Integer | `nil`
+`['lacp_rate']` | LACP bond rate. | Integer | `1`
 `['miimon']` | MII link monitoring interval. | Integer | `100`
 `['min_links']` | Minimum number of slave links for the bond to be considered up. | Integer | `1`
 `['mode']` | Bonding mode. | String | `802.3ad`
-`['xmit_hash_policy']` | TX hashing policy. | String | `layer3+4`
-`['lacp_rate']` | LACP bond rate. | Integer | `1`
-`['lacp_bypass_allow']` | Enable LACP bypass. Set to `1` to enable (*needs to be boolean*). | Integer | `nil`
-`['mstpctl_portnetwork']` | Enable bridge assurance on a VLAN aware trunk. | Boolean | `nil`
-`['mstpctl_portadminedge']` | Enables admin edge port. | Boolean | `nil`
 `['mstpctl_bpduguard']` | Enable BPDU guard on a VLAN aware trunk. | Boolean | `nil`
-`['clag_id']` | Identifier for a CLAG bond. The ID must be the same on both CLAG peers. | Integer | `nil`
+`['mstpctl_portadminedge']` | Enables admin edge port. | Boolean | `nil`
+`['mstpctl_portnetwork']` | Enable bridge assurance on a VLAN aware trunk. | Boolean | `nil`
+`['mtu']` | MTU to configure for the interface. | Integer | `nil`
+`['post_up']` | Post-up command(s) to run | String or Array | `nil`
+`['pre_down']` | Pre-down command(s) to run | String or Array | `nil`
+`['pvid']` | Native VLAN for a VLAN aware trunk interface. | Integer | `nil`
+`['slaves']` | Bond members (*required*). | Array | `required`
+`['vids']` | Array of VLANs to be configured for a VLAN aware trunk interface. | Array | `nil`
+`['virtual_ip']` | VRR virtual IP (*needs to be fixed in cumulus cookbook*). | String | `nil`
+`['virtual_mac']` | VRR virtual MAC (*needs to be fixed in cumulus cookbook*). | String | `nil`
+`['xmit_hash_policy']` | TX hashing policy. | String | `layer3+4`
 
 #### Ports
 
