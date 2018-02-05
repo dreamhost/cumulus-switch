@@ -31,6 +31,8 @@ node.set['cumulus']['interface']['swp2']['pre_down'] = [
 ]
 node.set['cumulus']['interface']['vni']['vxlan_id'] = '1000'
 node.set['cumulus']['interface']['vni']['vxlan_local_tunnelip'] = '192.168.10.1'
+node.set['cumulus']['interface']['vni']['vxrd_svcnode_ip'] = '192.168.10.10'
+
 
 # Test post_up and pre_down as String instead of Array
 node.set['cumulus']['interface']['swp3']['post_up'] = 'ip route add 192.168.0.0/16 via 192.168.200.2'
@@ -46,3 +48,6 @@ node.set['cumulus']['interface']['swp4']['clagd_args'] = '--backupPort 5400'
 
 # Interface range
 node.set['cumulus']['interface_range']['swp[5-7]']['mtu'] = 9000
+
+# Bridge Access Port
+node.set['cumulus']['interface']['swp13']['bridge_access'] = '100'
