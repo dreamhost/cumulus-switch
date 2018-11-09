@@ -27,7 +27,7 @@ action :create do
   case release
     ## This action is for cumulus linux 1 or 2
   when /^[12]\./
-    source_file = 'switchd-2.conf'
+    source_file = 'switchd_2.conf'
     unless node['cumulus']['switchd'].empty?
       node.default['cumulus']['switchd']['logging'] = 'file=>/var/log/switchd.log=INFO'
     end
