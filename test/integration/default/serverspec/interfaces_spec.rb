@@ -71,6 +71,7 @@ describe file("#{intf_dir}/vni") do
   its(:content) { should match(/vxlan-id 1000/) }
   its(:content) { should match(/vxlan-local-tunnelip 192.168.10.1/) }
   its(:content) { should match(/vxrd-svcnode-ip 192.168.10.10/) }
+  its(:content) { should match(/vxlan-ageing 1800/) }
 end
 
 # post_up should work as String as well as Array

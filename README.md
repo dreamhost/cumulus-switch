@@ -87,6 +87,7 @@ Attribute        | Description |Type | Default
 `['vids']` | Array of VLANs to be configured for a VLAN aware trunk interface. | Array | `nil`
 `['virtual_ip']` | VRR virtual IP. | String | `nil`
 `['virtual_mac']` | VRR virtual MAC. | String | `nil`
+`['vxlan_ageing']` | VXLAN ageing timer settings. | String | `nil`
 `['vxlan_id']` | Vxlan id for the interface. | String | `nil`
 `['vxlan_local_tunnelip']` | Ip address that is used for vxlan tunnel peering. | String | `nil`
 `['vxrd_src_ip']` | This is the src IP for all LVN Vxlan. | String | `nil`

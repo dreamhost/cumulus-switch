@@ -32,6 +32,7 @@ node.set['cumulus']['interface']['swp2']['pre_down'] = [
 node.set['cumulus']['interface']['vni']['vxlan_id'] = '1000'
 node.set['cumulus']['interface']['vni']['vxlan_local_tunnelip'] = '192.168.10.1'
 node.set['cumulus']['interface']['vni']['vxrd_svcnode_ip'] = '192.168.10.10'
+node.set['cumulus']['interface']['vni']['vxlan_ageing'] = '1800'
 
 
 # Test post_up and pre_down as String instead of Array
