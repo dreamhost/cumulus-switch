@@ -52,6 +52,7 @@ action :create do
   virtual_mac = data['virtual_mac']
   vrf = data['vrf']
   vrf_table = data['vrf_table']
+  vxlan_ageing = data['vxlan_ageing']
   vxlan_id = data['vxlan_id']
   vxlan_local_tunnelip = data['vxlan_local_tunnelip']
   vxrd_src_ip = data['vxrd_src_ip']
@@ -82,6 +83,7 @@ action :create do
   config['vrf'] = vrf.to_s unless vrf.nil?
   config['vrf-table'] = vrf_table.to_s unless vrf_table.nil?
   config['vxlan-id'] = vxlan_id.to_s unless vxlan_id.nil?
+  config['vxlan-ageing'] = vxlan_ageing.to_s unless vxlan_id.nil?
   config['vxlan-local-tunnelip'] = vxlan_local_tunnelip.to_s unless vxlan_local_tunnelip.nil?
   config['vxrd-src-ip'] = vxrd_src_ip.to_s unless vxrd_src_ip.nil?
   config['vxrd-svcnode-ip'] = vxrd_svcnode_ip.to_s unless vxrd_svcnode_ip.nil?
