@@ -10,7 +10,7 @@ platforms:
   - name: cumulus-vx-2.5.3
     driver:
       box: cumulus-vx-2.5.3
-      box_url: 'https://objects.dreamhost.com/public-github/vagrant/boxes/cumulus-vx-2.5.3-chef-vbox.box'
+      box_url: 'https://networking.objects-us-east-1.dream.io/vagrant/boxes/cumulus-vx-2.5.3-chef-vbox.box'
       provision: true
       vagrantfiles: ['test/provision_chef.rb']
   - name: cumulus-vx-3.3.2
